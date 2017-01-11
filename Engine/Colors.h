@@ -93,6 +93,15 @@ public:
 	}
 };
 
+bool operator==( Color A, Color B )
+{
+	return A.dword == B.dword;
+}
+bool operator!=( Color A, Color B )
+{
+	return !( A == B );
+}
+
 namespace Colors
 {
 	static constexpr Color MakeRGB( unsigned char r,unsigned char g,unsigned char b )

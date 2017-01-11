@@ -23,6 +23,7 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
+#include "Wic.h"
 #include <chrono>
 
 class Game
@@ -41,6 +42,16 @@ private:
 private:
 	MainWindow& wnd;
 	Graphics gfx;
+
+	// I've grown accustomed to useing m_ for member prefix
+	// I will still use (_) for rest of name instead of camel case
+	// WIC stands for (Windows Imaging Component) it's the new
+	// API for loading images after GDI+
+	//
+	// I'm also going to try using C++ exceptions for this project,
+	// make it a learning experience for me as well, so it doesn't
+	// get stale.
+	Wic m_wic;
 
 
 	// Temp ship variables
