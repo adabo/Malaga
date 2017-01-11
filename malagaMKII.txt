@@ -21,7 +21,9 @@ Ship upgrades / movement
 1. ship speed
 2. shield with own hp bar
 3. acceleration
-4. turn corners shoot toward middle from 4 edges of screen
+
+To be decided
+[ 4. turn corners shoot toward middle from 4 edges of screen ]
 
 Enemy types
 ----------
@@ -40,7 +42,6 @@ Levels and difficulty
 Concepts
 ----------
 1. Stars wraps around
-2. Scaling and resolution
 
 Game Objectives and Rules
 ----------
