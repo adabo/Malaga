@@ -40,14 +40,14 @@ Game::Game( MainWindow& wnd )
 void Game::Go()
 {
 	end = std::chrono::steady_clock::now();
-
 	frame_time = std::chrono::duration<float>( end - start ).count();
+	start = std::chrono::steady_clock::now();
+
 	UpdateModel();
 	gfx.BeginFrame();
 	ComposeFrame();
 	gfx.EndFrame();
 
-	start = std::chrono::steady_clock::now();
 
 }
 

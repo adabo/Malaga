@@ -58,7 +58,7 @@ private:
 	float bullet_vy[ max_bullets ];
 	const float bullet_length = 5.f;
 	const float bullet_speed = 10.f;
-	constexpr static float fire_rate = .0025f;
+	constexpr static float fire_rate = .1f;
 	float fire_rate_tracker = 0.f;
 
 	// Temp timer variables
