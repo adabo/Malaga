@@ -178,7 +178,7 @@ void Game::ComposeFrame()
 		const int w = ( int )ship_size;
 		gfx.DrawRect( x, y, w, w, Colors::White );
 	}
-
+	
 	{ // Draw bullets
 		for( int i = 0; i < bullet_count; ++i )
 		{
