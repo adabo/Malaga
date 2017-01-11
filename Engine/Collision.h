@@ -4,7 +4,6 @@ class Collision
 {
 public:
     Collision();
-
 private:
 };
 
