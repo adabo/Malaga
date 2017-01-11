@@ -9,14 +9,14 @@ Font Text::fixedSys;
 Font Text::edges;
 // Font Text::font;
 
-Text::Text( std::string Str, int X, int Y, WhichFont Type, eColor DC, eColor MC, StrType SType )
-	: str( Str ),
-	s_type( SType ),
+Text::Text( const std::string &Str, int X, int Y, WhichFont Type, Color DefaultColor, Color MouseOverColor )
+	:
+	str( Str ),
 	x( X ),
 	y( Y ),
 	type( Type ),
-	mouse_over_color( MC ),
-	default_color( DC ),
+	mouse_over_color( MouseOverColor ),
+	default_color( DefaultColor ),
 	left_is_pressed( false )
 {
 	// Set font
@@ -112,7 +112,7 @@ void Text::SetFToA( float FStr )
 	SetBuff();
 }
 
-bool Text::MouseHoverOver( int MX, int MY, int X, int Y, int W, int H )
+bool Text::MouseHoverOver( int MX, int MY, int X, int Y, int W, int H )const
 {
 	return (
 		MX >= X && MX <= X + W &&
@@ -130,12 +130,12 @@ Color Text::GetColor()const
 	return color;
 }
 
-std::string Text::GetStr()
+const std::string &Text::GetStr()const
 {
 	return str;
 }
 
-void Text::SetStr( std::string Str )
+void Text::SetStr( const std::string &Str )
 {
 	str = Str;
 }
