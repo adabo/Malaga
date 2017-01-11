@@ -46,15 +46,7 @@ bool Text::Update( Mouse& Mouse )
 {
 	int mx = Mouse.GetPosX();
 	int my = Mouse.GetPosY();
-
-	if( px != NULL && py != NULL )
-	{
-		x = *px;
-		y = *py;
-	}
-
-	ToString();
-
+	
 	SetColor( default_color );
 	if( Mouse.IsInWindow() )
 	{
@@ -92,7 +84,7 @@ void Text::Draw( Graphics &Gfx )
 	// int string_width = sprintf(buffer, "HP: %.2f", ThisPlayer.hp);
 	// string_width = string_width * fixedSys.char_width;
 
-	font.DrawString( str.c_str(), x, y, &font, color, Gfx );
+	font->DrawString( str.c_str(), x, y, font, active_color, Gfx );
 }
 
 void Text::SetIToA( int IStr )
@@ -127,7 +119,7 @@ void Text::SetColor( Color C )
 
 Color Text::GetColor()const
 {
-	return color;
+	return active_color;
 }
 
 const std::string &Text::GetStr()const
