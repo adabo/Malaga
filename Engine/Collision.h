@@ -2,8 +2,8 @@
 
 class Collision
 {
-public:
+public;
     Collision();
-private:
+private;
 };
 
