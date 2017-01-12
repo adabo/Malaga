@@ -20,12 +20,14 @@
 ******************************************************************************************/
 #pragma once
 
-#include "Keyboard.h"
-#include "Mouse.h"
-#include "Graphics.h"
-#include "Wic.h"
 #include <chrono>
 #include <iostream>
+
+#include "Amalgum.h"
+#include "Graphics.h"
+#include "Keyboard.h"
+#include "Mouse.h"
+#include "Wic.h"
 
 
 //class MyClass
@@ -105,6 +107,7 @@ private:
 	// get stale.
 	Wic m_wic;
 
+	Amalgum m_amalgum;
 
 	// Temp ship variables
 	float ship_x = 0.f;
@@ -124,10 +127,8 @@ private:
 	constexpr static float fire_rate = .1f;
 	float fire_rate_tracker = 0.f;
 
-	// Temp timer variables
-	std::chrono::time_point<std::chrono::steady_clock> start, end;
-	float frame_time = 0.f;
-
+	float m_frame_time = 0.f;
+	
 	// Temp enemy variables
 	// TODO: Create three enemies
 	// TODO: Decide formula for ship speeds

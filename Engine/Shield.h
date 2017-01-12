@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Vector.h"
+
 class Graphics;
 
 class Shield
@@ -21,5 +22,9 @@ public:
 
 private:
 	Vector m_position;
+
+	// Full shields in 5 seconds
+	static constexpr float regen_max_time = 5.f;
+	float m_hp;
 };
 

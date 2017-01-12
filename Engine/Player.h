@@ -4,14 +4,17 @@
 
 
 class Keyboard;
+class Amalgum;
+
 
 class Player
 {
 public:
-	Player( Keyboard &M );
-	void Update();
+	Player( Keyboard &M, Amalgum &rAmalgum );
+	void Update(float Dt);
 private:
 	Keyboard &m_keyboard;
 	Ship m_ship;
+	Amalgum &m_amalgum;
 };
 
