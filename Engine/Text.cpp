@@ -138,6 +138,12 @@ void Text::SetBuff()
 	h = font->char_height;
 }
 
+void Text::SetXY( int X, int Y )
+{
+	SetX( X );
+	SetY( Y );
+}
+
 void Text::SetX( int X )
 {
 	x = X;

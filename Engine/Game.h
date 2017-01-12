@@ -25,6 +25,58 @@
 #include "Graphics.h"
 #include "Wic.h"
 #include <chrono>
+#include <iostream>
+
+
+//class MyClass
+//{
+//public:
+//	MyClass &operator+=( const MyClass &Source )
+//	{
+//		f += Source.f;
+//		g += Source.g;
+//
+//		return *this;
+//	}
+//	MyClass operator-( const MyClass &Source )const
+//	{
+//		MyClass temp;
+//		temp.f = this->f - Source.f;
+//		temp.g = this->g - Source.g;
+//		return temp;
+//
+//		// or 
+//
+//		return MyClass{ f - Source.f, g - Source.g };
+//	}
+//	MyClass Add( const MyClass &A, const MyClass &B )
+//	{
+//		MyClass temp = A;
+//		temp.f += B.f;
+//		temp.g += B.g;
+//		return temp;
+//
+//		// or
+//
+//		return MyClass( A ) += B;
+//	}
+//public:
+//	float f, g;
+//};
+//
+//
+//MyClass operator+( const MyClass &A, const MyClass &B )
+//{
+//	MyClass temp = A;
+//	temp.f += B.f;
+//	temp.g += B.g;
+//	return temp;
+//	
+//	// or
+//	MyClass c = A - B;
+//	return MyClass( A ) += B;
+//}
+
 
 class Game
 {

@@ -3,15 +3,15 @@
 #include "Ship.h"
 
 
-class Mouse;
+class Keyboard;
 
 class Player
 {
 public:
-	Player( Mouse &M );
+	Player( Keyboard &M );
 	void Update();
 private:
-	Mouse &m_mouse;
+	Keyboard &m_keyboard;
 	Ship m_ship;
 };
 

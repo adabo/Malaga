@@ -32,6 +32,8 @@ public:
     void SetColor(Color C);
     void SetBuff();
     void SetStr(const std::string &Str);
+
+	void SetXY( int X, int Y );
     void SetX(int X);
     void SetY(int Y);
 
