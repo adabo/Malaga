@@ -20,10 +20,65 @@
 ******************************************************************************************/
 #pragma once
 
+#include <chrono>
+#include <iostream>
+
+#include "Amalgum.h"
+#include "Graphics.h"
 #include "Keyboard.h"
 #include "Mouse.h"
-#include "Graphics.h"
-#include <chrono>
+#include "Wic.h"
+
+
+//class MyClass
+//{
+//public:
+//	MyClass &operator+=( const MyClass &Source )
+//	{
+//		f += Source.f;
+//		g += Source.g;
+//
+//		return *this;
+//	}
+//	MyClass operator-( const MyClass &Source )const
+//	{
+//		MyClass temp;
+//		temp.f = this->f - Source.f;
+//		temp.g = this->g - Source.g;
+//		return temp;
+//
+//		// or 
+//
+//		return MyClass{ f - Source.f, g - Source.g };
+//	}
+//	MyClass Add( const MyClass &A, const MyClass &B )
+//	{
+//		MyClass temp = A;
+//		temp.f += B.f;
+//		temp.g += B.g;
+//		return temp;
+//
+//		// or
+//
+//		return MyClass( A ) += B;
+//	}
+//public:
+//	float f, g;
+//};
+//
+//
+//MyClass operator+( const MyClass &A, const MyClass &B )
+//{
+//	MyClass temp = A;
+//	temp.f += B.f;
+//	temp.g += B.g;
+//	return temp;
+//	
+//	// or
+//	MyClass c = A - B;
+//	return MyClass( A ) += B;
+//}
+
 
 class Game
 {
@@ -42,6 +97,17 @@ private:
 	MainWindow& wnd;
 	Graphics gfx;
 
+	// I've grown accustomed to useing m_ for member prefix
+	// I will still use (_) for rest of name instead of camel case
+	// WIC stands for (Windows Imaging Component) it's the new
+	// API for loading images after GDI+
+	//
+	// I'm also going to try using C++ exceptions for this project,
+	// make it a learning experience for me as well, so it doesn't
+	// get stale.
+	Wic m_wic;
+
+	Amalgum m_amalgum;
 
 	// Temp ship variables
 	float ship_x = 0.f;
@@ -61,10 +127,8 @@ private:
 	constexpr static float fire_rate = .1f;
 	float fire_rate_tracker = 0.f;
 
-	// Temp timer variables
-	std::chrono::time_point<std::chrono::steady_clock> start, end;
-	float frame_time = 0.f;
-
+	float m_frame_time = 0.f;
+	
 	// Temp enemy variables
 	// TODO: Create three enemies
 	// TODO: Decide formula for ship speeds

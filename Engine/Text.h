@@ -1,71 +1,51 @@
 #pragma once
-#include "Font.h"
+
 #include <stdio.h>
-#include "Mouse.h"
 #include <string>
-#include "D3DGraphics.h"
+#include "Colors.h"
+#include "Font.h"
+#include "Mouse.h"
+
+class Graphics;
 
 class Text
 {
 public:
-    enum StrType
-    {
-        STRING, INT, FLOAT
-    };
-
-    enum Color
-    {
-        GREY, PINK, GREEN, BLACK, RED
-    };
-
     enum WhichFont
     {
         FIXEDSYS, EDGES
     };
 public:
-    Text();
-    Text(std::string Str,   int X, int Y, WhichFont Type, Color DC, Color MC, StrType SType = STRING);
-    Text(int*         IStr, int X, int Y, WhichFont Type, Color DC, Color MC, StrType SType = STRING);
-    Text(float*       FStr, int X, int Y, WhichFont Type, Color DC, Color MC, StrType SType = STRING);
-    Text(int*       FStr, int* X, int* Y, WhichFont Type, Color DC, Color MC, StrType SType = STRING);
+	Text() = default;
+	Text( const std::string &Str, int X, int Y, WhichFont Type, Color DefaultColor, Color MouseOverColor );
 
-    void Draw(D3DGraphics &Gfx);
-    bool Update(MouseClient& Mouse);
+    void Draw( Graphics &Gfx);
+    bool Update(Mouse& Mouse);
 
-    bool MouseHoverOver(int MX, int MY, int X, int Y, int W, int H);
-    void ToString();
+    bool MouseHoverOver(int MX, int MY, int X, int Y, int W, int H)const;
+	
+	Color GetColor()const;		
+    const std::string &GetStr()const;
 
-    Color       GetDC();
-    Color       GetMC();
-    int         GetR();
-    int         GetG();
-    int         GetB();
-    std::string GetStr();
-
-    void SetIToA(int* IStr);
-    void SetFToA(float* FStr);
-    void SetColor(Color Cl);
+    void SetIToA(int IStr);
+    void SetFToA(float FStr);
+    void SetColor(Color C);
     void SetBuff();
-    void SetStr(std::string Str);
+    void SetStr(const std::string &Str);
+
+	void SetXY( int X, int Y );
     void SetX(int X);
     void SetY(int Y);
 
 private:
-    StrType s_type;
     int x, y, w, h;
-    int *px, *py;
-    int r, g, b;
-    char buff[64];
     std::string str;
-    int* i_str;
-    float* f_str;
     WhichFont type;
-    Color dc;
-    Color mc;
-    static D3DCOLOR fixedSys_surf[512 * 84]; // fixedSys
-    static D3DCOLOR edges_surf[160 * 29];    // edges
+	Color default_color, mouse_over_color, active_color;
+    static Color fixedSys_surf[512 * 84]; // fixedSys
+    static Color edges_surf[160 * 29];    // edges
     static Font fixedSys;
     static Font edges;
-    Font font;
+    Font *font;
     bool left_is_pressed;
 };

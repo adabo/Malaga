@@ -4,6 +4,11 @@ class Level
 {
 public:
     Level();
-private:
+
+	int GetDifficulty()const;
+	void SetDifficulty( int Lvl );
+
+private:	
+	int m_difficulty_tier = 0;
 };
 

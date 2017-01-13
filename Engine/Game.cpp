@@ -26,7 +26,6 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd )
 {
-	start = std::chrono::steady_clock::now();
 
 	for( int i = 0; i < max_bullets; ++i )
 	{
@@ -39,23 +38,19 @@ Game::Game( MainWindow& wnd )
 
 void Game::Go()
 {
-	end = std::chrono::steady_clock::now();
-	frame_time = std::chrono::duration<float>( end - start ).count();
-	start = std::chrono::steady_clock::now();
+	m_frame_time = m_amalgum.m_timer.Reset();
 
 	UpdateModel();
 	gfx.BeginFrame();
 	ComposeFrame();
 	gfx.EndFrame();
-
-
 }
 
 void Game::UpdateModel()
 {
 	// A change to commit.
 	// Update fire rate tracker or bullet spawn timer
-	fire_rate_tracker += frame_time;
+	fire_rate_tracker += m_frame_time;
 
 	// Helpful vars for checking if ship is on/near edges
 	const float screen_width = ( float )Graphics::ScreenWidth;
