@@ -29,6 +29,21 @@ int WINAPI wWinMain( HINSTANCE hInst,HINSTANCE,LPWSTR pArgs,INT )
 		MainWindow wnd( hInst,pArgs );		
 		try
 		{
+			auto hr = CoInitialize( nullptr );
+			if( FAILED( hr ) )
+			{
+				throw( hr );
+			}
+		}
+		catch( const ChiliException& e )
+		{
+			const std::wstring eMsg = e.GetFullMessage() +
+				L"\n\nException caught at COM Initialization.";
+			wnd.ShowMessageBox( e.GetExceptionType(), eMsg );
+
+		}
+		try
+		{
 			Game theGame( wnd );
 			while( wnd.ProcessMessage() )
 			{
