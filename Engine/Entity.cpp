@@ -5,7 +5,7 @@ Entity::Entity()
 {}
 
 Entity::Entity( Vector Pos, float Hp, bool IsAlive,
-		        int w, int h )
+		        int Width, int Height )
 	:
 		pos( Pos ),
 		hp( Hp ),

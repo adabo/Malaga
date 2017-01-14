@@ -8,7 +8,7 @@ class Entity
 public:
 	Entity();
     Entity( Vector Pos, float Hp, bool IsAlive,
-			int w = 0, int h = 0 );
+			int Width = 0, int Height = 0 );
 
 	virtual bool IsColliding( const Vector &OtherPosition, float Width, float Height ) = 0;
 	virtual void DoCollision( float CollisionCost ) = 0;
@@ -21,6 +21,6 @@ public:
 	float hp,
 		  damage;
 	bool  is_alive;
-	int	  w, h;
+	int	  width, height;
 };
 
