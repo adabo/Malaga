@@ -3,15 +3,15 @@
 
 Draw::Draw( Amalgum &Amal )
 	:
-	m_amalgum( Amal )
+	amalgum( Amal )
 {}
 
 void Draw::Render( Graphics & Gfx )
 {
-	m_amalgum.m_stars.Draw( Gfx );
-	m_amalgum.m_player.Draw( Gfx );
+	amalgum.stars.Draw( Gfx );
+	amalgum.player.Draw( Gfx );
 
-	for( auto &projectile : m_amalgum.m_projectiles )
+	for( auto &projectile : amalgum.projectiles )
 	{
 		projectile.Draw( Gfx );
 	}

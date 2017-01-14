@@ -101,26 +101,25 @@ private:
 	/*  User Functions              */
 	Vector ClampToScreen( const Vector &Pos, const SizeF &Size );
 	bool IsInView( const Vector &Pos, const SizeF &Size );
+
+	// Temp only, remove after adding Bullet/Projectile class and implementing
+	// std::vector instead of raw arrays
+	void ShiftBulletArrays( unsigned int Idx );
 	/********************************/
 private:
 	MainWindow& wnd;
 	Graphics gfx;
 
-	// I've grown accustomed to useing m_ for member prefix
-	// I will still use (_) for rest of name instead of camel case
 	// WIC stands for (Windows Imaging Component) it's the new
 	// API for loading images after GDI+
 	//
 	// I'm also going to try using C++ exceptions for this project,
 	// make it a learning experience for me as well, so it doesn't
 	// get stale.
-	Wic m_wic;
+	Wic wic;
 
-	Amalgum m_amalgum;
-	Draw m_draw;
-
-	// Screen size cached in SizeF object
-	static constexpr SizeF screen_size = { ( float )Graphics::ScreenWidth, ( float )Graphics::ScreenHeight };
+	Amalgum amalgum;
+	Draw draw;
 
 	// Temp ship variables
 	Vector ship_pos = { 0.f, 0.f };
@@ -134,10 +133,8 @@ private:
 	Vector bullet_vel[ max_bullets ];
 	const SizeF bullet_size = { 5.f, 5.f };
 	const float bullet_speed = 10.f;
-	constexpr static float fire_rate = .1f;
-	float fire_rate_tracker = 0.f;
 
-	float m_frame_time = 0.f;
+	float frame_time = 0.f;
 	
 	// Temp enemy variables
 	// TODO: Create three enemies

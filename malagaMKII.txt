@@ -68,3 +68,44 @@ Game conditions
 ----------
 1. Complete Level
     a. kill 20 count enemies?
+
+
+
+
+1)	Game flow from a programming standpoint
+2)	Player uses left and right to move clockwise or counter clockwise around the 
+	border of the screen.
+3a)	First tier of difficulty, enemies come from just the top of the screen and 
+	move straight down...enemy type number 1.
+3b)	Second tier of difficulty, 
+		same enemies just get faster
+			or
+		same enemies just get tougher
+3c)	Third tier of difficulty, enemies come from different edges of the screen and 
+	are given a target (the player's position) to aim for.  Enemy travels in straight
+	line toward that position until leaving the screen...enemy type number 2.
+3d)	Fourth tier of difficulty, 
+		same enemies just get faster
+			or
+		same enemies just get tougher
+3e)	Fifth tier of difficulty, enemies come from different edges of the screen and 
+	follow the player around until player is hit or player destroys enemy.
+3f)	Sixth tier of difficulty, 
+		same enemies just get faster
+			or
+		same enemies just get tougher
+3g)	Seventh tier of difficulty, all enemy types spawn.
+3h)	Eighth tier of difficulty, all enemy types spawn more frequently
+3i)	Ninth tier of difficulty, all enemy types take damage, but player ammo reflects off
+	enemies, causing a chance for player to get hit by own ammo.
+3j) Tenth and final tier of difficulty, all enemy types spawn, random intervals, 
+	random speeds and random hit-points with reflective shields...basically all previous
+	difficulties combined.
+4)	Each enemy no matter the type will be color coded to provide different perks for
+	player.
+4a)	red bricks   -> shield
+4b)	blue bricks  -> ammo
+4c)	green bricks -> acceleration
+4d)	pink bricks  -> ship speed
+4e)	brown bricks -> bomb (destroy all enemies on screen) 
+
