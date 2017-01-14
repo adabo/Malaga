@@ -3,12 +3,14 @@
 #include "EnemyHoming.h"
 #include "Level.h"
 #include "Player.h"
+#include "StarField.h"
 #include "Timer.h"
 #include "Weapon.h"
 
 struct Amalgum
 {
 	Amalgum( Keyboard &Kbd );
+
 	// TODO:
 	// EnemyStraight m_enemy_straight;
 	// EnemyLastKnown m_enemy_last_known;
@@ -18,5 +20,6 @@ struct Amalgum
 	Player m_player;
 	Timer m_timer;
 
+	StarField m_stars;	
 };
 

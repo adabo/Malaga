@@ -157,11 +157,14 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Shield.h" />
+    <ClInclude Include="Size.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundEffect.h" />
+    <ClInclude Include="StarField.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Upgrade.h" />
+    <ClInclude Include="Utilities.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="Wic.h" />
@@ -186,6 +189,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Shield.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="StarField.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Upgrade.cpp" />

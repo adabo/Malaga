@@ -7,9 +7,6 @@ Vector::Vector( float x, float y )
 	y(y)
 { }
 
-Vector::Vector()
-{}
-
 Vector Vector::operator+( const Vector &VecRhs )const
 {
 	return Vector( x + VecRhs.x, y + VecRhs.y );
