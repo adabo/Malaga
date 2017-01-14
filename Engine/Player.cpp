@@ -6,8 +6,8 @@
 
 Player::Player( Keyboard & Kbd, Amalgum &rAmalgum )
 	:
-	m_keyboard( Kbd ),
-	m_amalgum( rAmalgum )
+	keyboard( Kbd ),
+	amalgum( rAmalgum )
 {}
 
 void Player::Update( float Dt )
@@ -18,11 +18,11 @@ void Player::Update( float Dt )
 	const float right_bounds = screen_width - 1.f - ship_size;
 	const float lower_bounds = screen_height - 1.f - ship_size;
 
-	Vector ship_pos = m_ship.GetPos();
+	Vector ship_pos = ship.GetPos();
 	Vector ship_direction{};
 
 	// Move clockwise
-	if( m_keyboard.KeyIsPressed( VK_LEFT ) || m_keyboard.KeyIsPressed( 'A' ) )
+	if( keyboard.KeyIsPressed( VK_LEFT ) || keyboard.KeyIsPressed( 'A' ) )
 	{
 		if( ship_pos.y <= 0.f && ship_pos.x < right_bounds )
 		{
@@ -54,7 +54,7 @@ void Player::Update( float Dt )
 	}
 
 	// Move counter clockwise
-	else if( m_keyboard.KeyIsPressed( VK_RIGHT ) || m_keyboard.KeyIsPressed( 'D' ) )
+	else if( keyboard.KeyIsPressed( VK_RIGHT ) || keyboard.KeyIsPressed( 'D' ) )
 	{
 		if( ship_pos.y <= 0.f && ship_pos.x > 0.f )
 		{
@@ -86,9 +86,9 @@ void Player::Update( float Dt )
 	}
 
 	// Fire bullet
-	if( m_keyboard.KeyIsPressed( VK_SPACE ) )
+	if( keyboard.KeyIsPressed( VK_SPACE ) )
 	{
-		m_ship.Fire( Dt );
+		ship.Fire( Dt );
 		//if( fire_rate_tracker >= fire_rate )
 		//{
 		//	if( bullet_count < max_bullets )
@@ -118,16 +118,16 @@ void Player::Update( float Dt )
 		//}
 	}
 
-	m_ship.ChangeDirection( ship_direction );
+	ship.ChangeDirection( ship_direction );
 	// m_ship.SetPosition(ship_pos);
 }
 
 void Player::Draw( Graphics & Gfx )
 {
 	{ // Draw ship
-		const int x = ( int )m_ship.pos.x;
-		const int y = ( int )m_ship.pos.y;
-		const int w = ( int )m_ship.size.width;
+		const int x = ( int )ship.pos.x;
+		const int y = ( int )ship.pos.y;
+		const int w = ( int )ship.size.width;
 		Gfx.DrawRect( x, y, w, w, Colors::White );
 	}
 }

@@ -14,12 +14,12 @@ struct Amalgum
 	// TODO:
 	// EnemyStraight m_enemy_straight;
 	// EnemyLastKnown m_enemy_last_known;
-	EnemyHoming m_enemy_homing;
-	Level m_level;
+	EnemyHoming enemy_homing;
+	Level level;
 
-	Player m_player;
-	Timer m_timer;
+	Player player;
+	Timer timer;
 
-	StarField m_stars;	
+	StarField stars;	
 };
 

@@ -114,10 +114,10 @@ private:
 	// I'm also going to try using C++ exceptions for this project,
 	// make it a learning experience for me as well, so it doesn't
 	// get stale.
-	Wic m_wic;
+	Wic wic;
 
-	Amalgum m_amalgum;
-	Draw m_draw;
+	Amalgum amalgum;
+	Draw draw;
 
 	// Screen size cached in SizeF object
 	static constexpr SizeF screen_size = { ( float )Graphics::ScreenWidth, ( float )Graphics::ScreenHeight };
@@ -137,7 +137,7 @@ private:
 	constexpr static float fire_rate = .1f;
 	float fire_rate_tracker = 0.f;
 
-	float m_frame_time = 0.f;
+	float frame_time = 0.f;
 	
 	// Temp enemy variables
 	// TODO: Create three enemies

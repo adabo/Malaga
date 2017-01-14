@@ -14,8 +14,8 @@ public:
 	void Update(float Dt);
 	void Draw( class Graphics &Gfx );
 private:
-	Keyboard &m_keyboard;
-	Ship m_ship;
-	Amalgum &m_amalgum;
+	Keyboard &keyboard;
+	Ship ship;
+	Amalgum &amalgum;
 };
 

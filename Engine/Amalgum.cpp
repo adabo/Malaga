@@ -3,5 +3,5 @@
 
 Amalgum::Amalgum( Keyboard & Kbd )
 	:
-	m_player( Kbd, *this )
+	player( Kbd, *this )
 {}
