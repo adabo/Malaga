@@ -1,9 +1,17 @@
 #pragma once
+#include "Entity.h"
 
-class Weapon
+
+class Weapon : public Entity
 {
 public:
     Weapon();
+
+	bool IsColliding();
+	void DoCollision();
+
+	void Update( float Dt );
+	void Draw();
 private:
 };
 
