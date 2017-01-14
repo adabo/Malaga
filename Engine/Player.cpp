@@ -1,8 +1,9 @@
 #include "Player.h"
 #include "Amalgum.h"
 #include "ChiliWin.h"
-#include "Keyboard.h"
 #include "Graphics.h"
+#include "Keyboard.h"
+#include "Utilities.h"
 
 Player::Player( Keyboard & Kbd, Amalgum &rAmalgum )
 	:
@@ -13,24 +14,25 @@ Player::Player( Keyboard & Kbd, Amalgum &rAmalgum )
 void Player::Update( float Dt )
 {
 	// Helpful vars for checking if ship is on/near edges
-	const float screen_width = ( float )Graphics::ScreenWidth;
-	const float screen_height = ( float )Graphics::ScreenHeight;
-	const float right_bounds = screen_width - 1.f - ship_size;
-	const float lower_bounds = screen_height - 1.f - ship_size;
+	const SizeF screen = {
+		( float )Graphics::ScreenWidth,
+		( float )Graphics::ScreenHeight
+	};
+	const SizeF bounds = screen - ship.size - SizeF( 1.f, 1.f );
 
-	Vector ship_pos = ship.GetPos();
+	Vector ship_pos = ship.pos;
 	Vector ship_direction{};
 
 	// Move clockwise
 	if( keyboard.KeyIsPressed( VK_LEFT ) || keyboard.KeyIsPressed( 'A' ) )
 	{
-		if( ship_pos.y <= 0.f && ship_pos.x < right_bounds )
+		if( ship_pos.y <= 0.f && ship_pos.x < bounds.width )
 		{
 			ship_direction = { 1.f, 0.f };
 			//m_ship.MoveRight();
 			//ship_pos.x += ship_speed;
 		}
-		else if( ship_pos.y >= lower_bounds && ship_pos.x > 0.f )
+		else if( ship_pos.y >= bounds.height && ship_pos.x > 0.f )
 		{
 			ship_direction = { -1.f, 0.f };
 			//m_ship.MoveLeft();
@@ -44,7 +46,7 @@ void Player::Update( float Dt )
 				//m_ship.MoveUp();
 				//ship_pos.y -= ship_speed;
 			}
-			else if( ship_pos.x >= right_bounds && ship_pos.y < lower_bounds )
+			else if( ship_pos.x >= bounds.width && ship_pos.y < bounds.height )
 			{
 				ship_direction = { 0.f, 1.f };
 				//m_ship.MoveDown();
@@ -62,7 +64,7 @@ void Player::Update( float Dt )
 			//m_ship.MoveLeft();
 			//ship_pos.x -= ship_speed;
 		}
-		else if( ship_pos.y >= lower_bounds && ship_pos.x < right_bounds )
+		else if( ship_pos.y >= bounds.height && ship_pos.x < bounds.width )
 		{
 			ship_direction = { 1.f, 0.f };
 			//m_ship.MoveRight();
@@ -70,13 +72,13 @@ void Player::Update( float Dt )
 		}
 		else
 		{
-			if( ship_pos.x <= 0.f && ship_pos.y < lower_bounds )
+			if( ship_pos.x <= 0.f && ship_pos.y < bounds.height )
 			{
 				ship_direction = { 0.f, 1.f };
 				//m_ship.MoveDown();
 				//ship_pos.y += ship_speed;
 			}
-			else if( ship_pos.x >= right_bounds && ship_pos.y > 0.f )
+			else if( ship_pos.x >= bounds.width && ship_pos.y > 0.f )
 			{
 				ship_direction = { 0.f, -1.f };
 				//m_ship.MoveUp();
@@ -84,6 +86,9 @@ void Player::Update( float Dt )
 			}
 		}
 	}
+
+	// Update fire rate tracker or bullet spawn timer
+	fire_rate_tracker += Dt;
 
 	// Fire bullet
 	if( keyboard.KeyIsPressed( VK_SPACE ) )
@@ -119,6 +124,7 @@ void Player::Update( float Dt )
 	}
 
 	ship.ChangeDirection( ship_direction );
+	ship.Update( Dt );
 	// m_ship.SetPosition(ship_pos);
 }
 

@@ -26,8 +26,8 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	m_amalgum( wnd.kbd ),
-	m_draw( m_amalgum )
+	amalgum( wnd.kbd ),
+	draw( amalgum )
 {
 	for( int i = 0; i < max_bullets; ++i )
 	{
@@ -38,7 +38,7 @@ Game::Game( MainWindow& wnd )
 
 void Game::Go()
 {
-	m_frame_time = m_amalgum.m_timer.Reset();
+	frame_time = amalgum.timer.Reset();
 
 	UpdateModel();
 	gfx.BeginFrame();
@@ -49,10 +49,7 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	// Helpful vars for checking if ship is on/near edges	
-	const SizeF bounds = screen_size - ship_size - SizeF( 1.f, 1.f );
-
-	// Update fire rate tracker or bullet spawn timer
-	fire_rate_tracker += m_frame_time;
+	//const SizeF bounds = amalgum.screen_size - ship_size - SizeF( 1.f, 1.f );
 
 	// Clamp the ship to the edges
 	ship_pos = ClampToScreen( ship_pos, ship_size );	
@@ -66,19 +63,14 @@ void Game::UpdateModel()
 		// Check if bullet off screen
 		if( !IsInView( bullet_pos[ i ], bullet_size ) )
 		{
-			for( unsigned int j = i + 1; j < bullet_count; ++j )
-			{
-				const int k = j - 1;
-				std::swap( bullet_pos[ j ], bullet_pos[ k ] );
-				std::swap( bullet_vel[ j ], bullet_vel[ k ] );
-			}
-			--bullet_count;
+			ShiftBulletArrays( i );
 		}
 	}
 	
 	// Update ship movement
+	amalgum.player.Update( frame_time );
 	// Move clockwise
-	if( wnd.kbd.KeyIsPressed( VK_LEFT ) || wnd.kbd.KeyIsPressed( 'A' ) )
+	/*if( wnd.kbd.KeyIsPressed( VK_LEFT ) || wnd.kbd.KeyIsPressed( 'A' ) )
 	{
 		if( ship_pos.y <= 0.f && ship_pos.x < bounds.width )
 		{
@@ -99,10 +91,10 @@ void Game::UpdateModel()
 				ship_pos.y += ship_speed;
 			}
 		}
-	}
+	}*/
 
 	// Move counter clockwise
-	if( wnd.kbd.KeyIsPressed( VK_RIGHT ) || wnd.kbd.KeyIsPressed( 'D' ) )
+	/*if( wnd.kbd.KeyIsPressed( VK_RIGHT ) || wnd.kbd.KeyIsPressed( 'D' ) )
 	{
 		if( ship_pos.y <= 0.f && ship_pos.x > 0.f )
 		{
@@ -123,10 +115,10 @@ void Game::UpdateModel()
 				ship_pos.y -= ship_speed;
 			}
 		}
-	}
+	}*/
 
 	// Fire bullet
-	if( wnd.kbd.KeyIsPressed( VK_SPACE ) )
+	/*if( wnd.kbd.KeyIsPressed( VK_SPACE ) )
 	{
 		if( fire_rate_tracker >= fire_rate )
 		{
@@ -150,28 +142,37 @@ void Game::UpdateModel()
 				++bullet_count;
 			}
 		}
-	}
+	}*/
 }
 
 Vector Game::ClampToScreen( const Vector & Pos, const SizeF & Size )
 {
 	return Vector(
-		std::max( 0.f, std::min( Pos.x, screen_size.width - Size.width ) ),
-		std::max( 0.f, std::min( Pos.y, screen_size.height - Size.height ) )
+		std::max( 0.f, std::min( Pos.x, amalgum.screen_size.width - Size.width ) ),
+		std::max( 0.f, std::min( Pos.y, amalgum.screen_size.height - Size.height ) )
 	);
 }
 
 bool Game::IsInView( const Vector & Pos, const SizeF & Size )
 {
 	return (
-		( Pos.x + Size.width >= 0.f && Pos.x < screen_size.width ) &&
-		( Pos.y + Size.height >= 0.f && Pos.y < screen_size.height ) );
+		( Pos.x + Size.width >= 0.f && Pos.x <  amalgum.screen_size.width ) &&
+		( Pos.y + Size.height >= 0.f && Pos.y < amalgum.screen_size.height ) );
+}
+
+void Game::ShiftBulletArrays(unsigned int Idx)
+{
+	for( unsigned int j = Idx + 1; j < bullet_count; ++j )
+	{
+		const int k = j - 1;
+		std::swap( bullet_pos[ j ], bullet_pos[ k ] );
+		std::swap( bullet_vel[ j ], bullet_vel[ k ] );
+	}
+	--bullet_count;
 }
 
 void Game::ComposeFrame()
-{
-	
-	
+{	
 	{ // Draw bullets
 		for( int i = 0; i < bullet_count; ++i )
 		{

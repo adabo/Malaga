@@ -15,7 +15,9 @@ public:
 	void Draw( class Graphics &Gfx );
 private:
 	Keyboard &keyboard;
-	Ship ship;
 	Amalgum &amalgum;
+	Ship ship;
+	constexpr static float fire_rate = .1f;
+	float fire_rate_tracker = 0.f;
 };
 

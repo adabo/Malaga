@@ -1,6 +1,7 @@
 #pragma once
 
 #include "EnemyHoming.h"
+#include "Graphics.h"
 #include "Level.h"
 #include "Player.h"
 #include "StarField.h"
@@ -10,6 +11,9 @@
 struct Amalgum
 {
 	Amalgum( Keyboard &Kbd );
+
+	// Screen size cached in SizeF object
+	static constexpr SizeF screen_size = { ( float )Graphics::ScreenWidth, ( float )Graphics::ScreenHeight };
 
 	// TODO:
 	// EnemyStraight m_enemy_straight;

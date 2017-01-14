@@ -6,7 +6,7 @@
 class Graphics;
 
 class EnemyHoming :
-	public Entity, public Collision
+	public Entity
 {
 public:
 	EnemyHoming();
