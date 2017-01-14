@@ -1,20 +1,24 @@
 #pragma once
+#include "Vector.h"
+
+class Graphics;
 
 class Entity
 {
 public:
 	Entity();
-    Entity( float x, float y, float Hp, bool IsAlive );
+    Entity( Vector Pos, float Hp, bool IsAlive,
+			int w = 0, int h = 0 );
 
-	virtual bool IsColliding();
-	virtual void DoCollision();
+	virtual bool IsColliding( const Vector &OtherPosition, float Width, float Height ) = 0;
+	virtual void DoCollision( float CollisionCost ) = 0;
 
-	virtual void Update();
-	virtual void Draw();
+	virtual void Update( float Dt ) = 0;
+	virtual void Draw( Graphics &Gfx ) = 0;
 
 public:
-	float x, y,
-		  hp,
+	Vector pos;
+	float hp,
 		  damage;
 	bool  is_alive;
 	int	  w, h;
