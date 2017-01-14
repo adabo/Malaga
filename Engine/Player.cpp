@@ -20,6 +20,7 @@ void Player::Update( float Dt )
 
 	Vector ship_pos = m_ship.GetPos();
 	Vector ship_direction{};
+
 	// Move clockwise
 	if( m_keyboard.KeyIsPressed( VK_LEFT ) || m_keyboard.KeyIsPressed( 'A' ) )
 	{
@@ -119,4 +120,14 @@ void Player::Update( float Dt )
 
 	m_ship.ChangeDirection( ship_direction );
 	// m_ship.SetPosition(ship_pos);
+}
+
+void Player::Draw( Graphics & Gfx )
+{
+	{ // Draw ship
+		const int x = ( int )m_ship.pos.x;
+		const int y = ( int )m_ship.pos.y;
+		const int w = ( int )m_ship.size.width;
+		Gfx.DrawRect( x, y, w, w, Colors::White );
+	}
 }
