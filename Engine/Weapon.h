@@ -4,6 +4,7 @@ class Weapon
 {
 public:
     Weapon();
+
+	void Upgrade();
 private:
 };
-
