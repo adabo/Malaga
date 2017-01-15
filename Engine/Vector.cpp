@@ -7,6 +7,9 @@ Vector::Vector( float x, float y )
 	y(y)
 { }
 
+Vector::Vector()
+{}
+
 Vector Vector::operator+( const Vector &VecRhs )const
 {
 	return Vector( x + VecRhs.x, y + VecRhs.y );
@@ -27,7 +30,7 @@ float Vector::GetMagnitude( ) const
 	return sqrt( x * x + y * y );
 }
 
-Vector Vector:: GetNormal( ) const
+Vector Vector::Normalize( ) const
 {
 	float mag = GetMagnitude();
 	return Vector( x / mag, y / mag );

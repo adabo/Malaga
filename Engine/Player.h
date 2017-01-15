@@ -2,10 +2,8 @@
 
 #include "Ship.h"
 
-
 class Keyboard;
 class Amalgum;
-
 
 class Player
 {

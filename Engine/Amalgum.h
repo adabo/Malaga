@@ -1,12 +1,16 @@
 #pragma once
 
-#include "EnemyHoming.h"
+#include <vector>
+#include "EnemyStraight.h"
+#include "EnemyTrackStatic.h"
+#include "EnemyTrackMotion.h"
 #include "Graphics.h"
 #include "Level.h"
 #include "Player.h"
 #include "StarField.h"
 #include "Timer.h"
 #include "Weapon.h"
+#include "Utilities.h"
 
 struct Amalgum
 {
@@ -15,10 +19,9 @@ struct Amalgum
 	// Screen size cached in SizeF object
 	static constexpr SizeF screen_size = { ( float )Graphics::ScreenWidth, ( float )Graphics::ScreenHeight };
 
-	// TODO:
-	// EnemyStraight m_enemy_straight;
-	// EnemyLastKnown m_enemy_last_known;
-	EnemyHoming enemy_homing;
+	std::vector<EnemyStraight> enemy_straight_list;
+	std::vector<EnemyTrackStatic> enemy_last_known_list;
+	std::vector<EnemyTrackMotion> enemy_homing_list;
 	Level level;
 
 	Player player;

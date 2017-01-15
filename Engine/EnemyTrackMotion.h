@@ -5,13 +5,12 @@
 
 class Graphics;
 
-class EnemyHoming :
+class EnemyTrackMotion :
 	public Entity
 {
 public:
-	EnemyHoming();
-	~EnemyHoming();
-		
+	EnemyTrackMotion( const Vector &Pos, const Vector &Dir, float Width, float Height, Color C );
+
 	bool IsColliding( const Vector &OtherPosition, float Width, float Height )const override;
 	void DoCollision( float CollisionCost ) override;
 
@@ -21,7 +20,7 @@ public:
 	void SetPlayerPosition( const Vector &PlayerPos );
 
 private:
-	Vector m_player_pos;
-
+	Vector player_pos;
+	Color color;
 };
 

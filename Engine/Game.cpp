@@ -174,7 +174,7 @@ void Game::ShiftBulletArrays(unsigned int Idx)
 void Game::ComposeFrame()
 {	
 	{ // Draw bullets
-		for( int i = 0; i < bullet_count; ++i )
+		for( unsigned int i = 0; i < bullet_count; ++i )
 		{
 			const int x = ( int )bullet_pos[ i ].x;
 			const int y = ( int )bullet_pos[ i ].y;

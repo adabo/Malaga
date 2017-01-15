@@ -2,3 +2,8 @@
 
 Weapon::Weapon()
 {}
+
+void Weapon::Upgrade()
+{
+
+}
