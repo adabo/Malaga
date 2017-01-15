@@ -19,7 +19,6 @@ struct Amalgum
 	// Screen size cached in SizeF object
 	static constexpr SizeF screen_size = { ( float )Graphics::ScreenWidth, ( float )Graphics::ScreenHeight };
 
-	// TODO:
 	std::vector<EnemyStraight> enemy_straight_list;
 	std::vector<EnemyTrackStatic> enemy_last_known_list;
 	std::vector<EnemyTrackMotion> enemy_homing_list;
