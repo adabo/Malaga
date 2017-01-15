@@ -5,16 +5,35 @@ Todo
 
 1. 2 player co-op
 
-Weapon types / upgrades
-----------
-1. speed upgrade [lasers]
-2. damage
+// Weapon types / upgrades
+// ----------
 
-Ammo upgrades
+// I'm reconsidering the useage of ammo and weapon. To me, it seems
+// that the ammo is not actually upgrading perse.
+//
+// When I think of a weapon being upgraded, I think of the amount of
+// damage it can do and various other properties the weapon might
+// have, ie. it's behaviour.
+//
+// Maybe an ammo upgrade would entail how many you can shoot at a
+// time? Still, that does seem like a feature that would be upgraded
+// to the weapon.
+//
+// For now I'm changing from ammo upgrade to weapon and combining the
+// previous Weapon type/upgrdes with it.
+
+// Ammo upgrades
+Weaopn upgrades
 ----------
-1. single shot |
-2. dual       | |
-3. triple    \ | /
+1. Projectile properties
+	a. speed
+	b. damage
+
+2. Weapon properties / tiers
+	a. single shot |
+	b. dual       | |
+	c. triple    \ | /
+	d. Quad     \ \ / / 
 
 Ship upgrades / movement
 ----------
