@@ -30,7 +30,7 @@ float Vector::GetMagnitude( ) const
 	return sqrt( x * x + y * y );
 }
 
-Vector Vector:: GetNormal( ) const
+Vector Vector::Normalize( ) const
 {
 	float mag = GetMagnitude();
 	return Vector( x / mag, y / mag );

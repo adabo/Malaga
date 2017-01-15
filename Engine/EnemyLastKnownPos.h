@@ -4,11 +4,14 @@
 class EnemyLastKnownPos : public Entity
 {
 public:
-	EnemyLastKnownPos();
+	EnemyLastKnownPosition();
+
+	void SpawnEnemyLastKnownPosition(Vector &Player);
 
 	void Update( float Dt J);
 	void Draw();
 
+
 public:
-	float velocity;
+	Vector *p_player_position;
 };

@@ -8,6 +8,6 @@ struct Vector
 	Vector operator-( const Vector &VecRhs )const;
 	Vector operator*( const float Rhs )const;
 	float GetMagnitude( ) const;
-	Vector GetNormal() const;
+	Vector Normalize() const;
 	float x, y;
 };

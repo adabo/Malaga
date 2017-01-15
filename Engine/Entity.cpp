@@ -4,10 +4,10 @@
 Entity::Entity()
 {}
 
-Entity::Entity( Vector Pos, float Hp, bool IsAlive,
-		        int Width, int Height )
+Entity::Entity( Vector Position, float Hp, float Velocity,
+		        bool IsAlive = false, int Width, int Height )
 	:
-		pos( Pos ),
+		position( Position ),
 		hp( Hp ),
-		is_alive( IsAlive )
+		velocity( Velocity ),
 {}
