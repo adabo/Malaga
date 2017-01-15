@@ -1,4 +1,6 @@
 #include "Spawner.h"
+#include "Amalgum.h"
+#include "Random.h"
 // TODO: Need to include Amalgum.h here
 // TODO: Need to include Random.h here
 // Check out Random.h to see what functions are available
