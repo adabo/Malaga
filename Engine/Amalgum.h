@@ -1,7 +1,9 @@
 #pragma once
 
 #include <vector>
-#include "EnemyHoming.h"
+#include "EnemyStraight.h"
+#include "EnemyTrackStatic.h"
+#include "EnemyTrackMotion.h"
 #include "Graphics.h"
 #include "Level.h"
 #include "Player.h"
@@ -19,8 +21,8 @@ struct Amalgum
 
 	// TODO:
 	std::vector<EnemyStraight> enemy_straight_list;
-	std::vector<EnemyLastKnown> enemy_last_known_list;
-	std::vector<EnemyHoming> enemy_homing_list;
+	std::vector<EnemyTrackStatic> enemy_last_known_list;
+	std::vector<EnemyTrackMotion> enemy_homing_list;
 	Level level;
 
 	Player player;

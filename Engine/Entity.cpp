@@ -1,13 +1,13 @@
 #include "Entity.h"
 #include "Graphics.h"
 
-Entity::Entity()
-{}
-
-Entity::Entity( Vector Position, float Hp, float Velocity,
-		        bool IsAlive = false, int Width, int Height )
+Entity::Entity( const Vector &Pos, const Vector &Heading, int Width, int Height,
+				float Speed, float HP, float Damage )
 	:
-		position( Position ),
-		hp( Hp ),
-		velocity( Velocity ),
+	position( Pos ),
+	hp( HP ),
+	velocity( Heading ),
+	width( Width ),
+	height( Height ),
+	speed( Speed )
 {}
