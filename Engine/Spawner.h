@@ -1,5 +1,5 @@
 #pragma once
-#include <stdlib>
+
 #include <math.h>
 
 struct Amalgum;
@@ -7,14 +7,25 @@ struct Amalgum;
 class Spawner
 {
 public:
+	enum ScreenSide
+	{
+		TOP, BOTTOM, LEFT, RIGHT
+	};
+
+	enum EnemyOrientation
+	{
+		VERTICAL, HORIZONTAL
+	};
+
 	Spawner( Amalgum &Amalgum );
 
 	void SpawnEnemyHoming();
 	void SpawnEnemyLastKnownPosition();
 	void SpawnEnemyStraight();
 
-	void SetScreenSide();
+	void SetScreenSide( ScreenSide Side );
 
 public:
 	Amalgum &amalgum;
-}
+	ScreenSide side;
+};

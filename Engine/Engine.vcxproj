@@ -138,6 +138,7 @@
   <ItemGroup>
     <ClInclude Include="Amalgum.h" />
     <ClInclude Include="Bitmap.h" />
+    <ClInclude Include="EnemyLastKnownPos.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="ChiliException.h" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Shield.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundEffect.h" />
+    <ClInclude Include="Spawner.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Upgrade.h" />
     <ClInclude Include="Weapon.h" />
@@ -168,6 +170,7 @@
   <ItemGroup>
     <ClCompile Include="Amalgum.cpp" />
     <ClCompile Include="Bitmap.cpp" />
+    <ClCompile Include="EnemyLastKnownPos.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Collision.cpp" />
@@ -186,6 +189,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Shield.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="Spawner.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Upgrade.cpp" />
     <ClCompile Include="Weapon.cpp" />
