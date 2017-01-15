@@ -9,7 +9,7 @@ class EnemyHoming :
 	public Entity
 {
 public:
-	EnemyHoming();
+	EnemyHoming(const Vector &Pos, const Vector &Dir, float Width, float Height, Color C);
 	~EnemyHoming();
 		
 	bool IsColliding( const Vector &OtherPosition, float Width, float Height )const override;
@@ -21,7 +21,7 @@ public:
 	void SetPlayerPosition( const Vector &PlayerPos );
 
 private:
-	Vector m_player_pos;
+	Vector player_pos;
 
 };
 
