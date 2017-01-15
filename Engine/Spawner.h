@@ -19,10 +19,11 @@ public:
 
 	Spawner( Amalgum &Amalgum );
 
-	void SpawnEnemyHoming();
-	void SpawnEnemyLastKnownPosition();
+	void SpawnEnemyTrackStatic();
+	void SpawnEnemyTrackMotion();
 	void SpawnEnemyStraight();
 
+	void SetEnemyOrientation( EnemyOrientation Orientation );
 	void SetScreenSide( ScreenSide Side );
 
 public:
