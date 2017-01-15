@@ -3,7 +3,12 @@
 
 
 
-EnemyHoming::EnemyHoming()
+EnemyHoming::EnemyHoming( const Vector &Pos, const Vector &Dir, float Width, float Height )
+{}
+
+EnemyHoming::EnemyHoming( const Vector & Pos, int Width, int Height )
+	:
+	Entity( Pos, Width, Height )
 {}
 
 
@@ -34,4 +39,9 @@ void EnemyHoming::Update( float Dt )
 void EnemyHoming::Draw( Graphics & Gfx )
 {
 	Gfx.DrawRect( pos.x, pos.y, width, height, Colors::Blue );
+}
+
+void EnemyHoming::SetPlayerPosition( const Vector & PlayerPos )
+{
+	player_pos = PlayerPos;
 }

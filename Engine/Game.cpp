@@ -20,25 +20,25 @@
 ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
+#include "Utilities.h"
 
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
-	gfx( wnd )
+	gfx( wnd ),
+	amalgum( wnd.kbd ),
+	draw( amalgum )
 {
-
 	for( int i = 0; i < max_bullets; ++i )
 	{
-		bullet_x[ i ] = 0.f;
-		bullet_y[ i ] = 0.f;
-		bullet_vx[ i ] = 0.f;
-		bullet_vy[ i ] = 0.f;
+		bullet_pos[ i ] = { 0.f, 0.f };
+		bullet_vel[ i ] = { 0.f, 0.f };
 	}
 }
 
 void Game::Go()
 {
-	m_frame_time = m_amalgum.m_timer.Reset();
+	frame_time = amalgum.timer.Reset();
 
 	UpdateModel();
 	gfx.BeginFrame();
@@ -48,92 +48,77 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	// A change to commit.
-	// Update fire rate tracker or bullet spawn timer
-	fire_rate_tracker += m_frame_time;
-
-	// Helpful vars for checking if ship is on/near edges
-	const float screen_width = ( float )Graphics::ScreenWidth;
-	const float screen_height = ( float )Graphics::ScreenHeight;
-	const float right_bounds = screen_width - 1.f - ship_size;
-	const float lower_bounds = screen_height - 1.f - ship_size;
+	// Helpful vars for checking if ship is on/near edges	
+	//const SizeF bounds = amalgum.screen_size - ship_size - SizeF( 1.f, 1.f );
 
 	// Clamp the ship to the edges
-	ship_x = std::max( 0.f, std::min( right_bounds, ship_x ) );
-	ship_y = std::max( 0.f, std::min( lower_bounds, ship_y ) );
+	ship_pos = ClampToScreen( ship_pos, ship_size );	
 
+	// Update bullet movement
 	for( unsigned int i = 0; i < bullet_count; ++i )
 	{
 		// Update bullet positions
-		bullet_x[ i ] += ( bullet_vx[ i ] * bullet_speed );
-		bullet_y[ i ] += ( bullet_vy[ i ] * bullet_speed );
+		bullet_pos[ i ] = bullet_pos[ i ] + ( bullet_vel[ i ] * bullet_speed );
 
 		// Check if bullet off screen
-		if( bullet_x[ i ] < 0 || bullet_x[ i ] >= screen_width ||
-			bullet_y[ i ] < 0 || bullet_y[ i ] >= screen_height )
+		if( !IsInView( bullet_pos[ i ], bullet_size ) )
 		{
-			for( unsigned int j = i + 1; j < bullet_count; ++j )
-			{
-				const int k = j - 1;
-				std::swap( bullet_x[ j ], bullet_x[ k ] );
-				std::swap( bullet_y[ j ], bullet_y[ k ] );
-				std::swap( bullet_vx[ j ], bullet_vx[ k ] );
-				std::swap( bullet_vy[ j ], bullet_vy[ k ] );
-			}
-			--bullet_count;
+			ShiftBulletArrays( i );
 		}
 	}
-
+	
+	// Update ship movement
+	amalgum.player.Update( frame_time );
 	// Move clockwise
-	if( wnd.kbd.KeyIsPressed( VK_LEFT ) || wnd.kbd.KeyIsPressed( 'A' ) )
+	/*if( wnd.kbd.KeyIsPressed( VK_LEFT ) || wnd.kbd.KeyIsPressed( 'A' ) )
 	{
-		if( ship_y <= 0.f && ship_x < right_bounds )
+		if( ship_pos.y <= 0.f && ship_pos.x < bounds.width )
 		{
-			ship_x += ship_speed;
+			ship_pos.x += ship_speed;
 		}
-		else if( ship_y >= lower_bounds && ship_x > 0.f )
+		else if( ship_pos.y >= bounds.height && ship_pos.x > 0.f )
 		{
-			ship_x -= ship_speed;
+			ship_pos.x -= ship_speed;
 		}
 		else
 		{
-			if( ship_x <= 0.f && ship_y > 0.f )
+			if( ship_pos.x <= 0.f && ship_pos.y > 0.f )
 			{
-				ship_y -= ship_speed;
+				ship_pos.y -= ship_speed;
 			}
-			else if( ship_x >= right_bounds && ship_y < lower_bounds )
+			else if( ship_pos.x >= bounds.width && ship_pos.y < bounds.height )
 			{
-				ship_y += ship_speed;
+				ship_pos.y += ship_speed;
 			}
 		}
-	}
+	}*/
 
 	// Move counter clockwise
-	if( wnd.kbd.KeyIsPressed( VK_RIGHT ) || wnd.kbd.KeyIsPressed( 'D' ) )
+	/*if( wnd.kbd.KeyIsPressed( VK_RIGHT ) || wnd.kbd.KeyIsPressed( 'D' ) )
 	{
-		if( ship_y <= 0.f && ship_x > 0.f )
+		if( ship_pos.y <= 0.f && ship_pos.x > 0.f )
 		{
-			ship_x -= ship_speed;
+			ship_pos.x -= ship_speed;
 		}
-		else if( ship_y >= lower_bounds && ship_x < right_bounds )
+		else if( ship_pos.y >= bounds.height && ship_pos.x < bounds.width )
 		{
-			ship_x += ship_speed;
+			ship_pos.x += ship_speed;
 		}
 		else
 		{
-			if( ship_x <= 0.f && ship_y < lower_bounds )
+			if( ship_pos.x <= 0.f && ship_pos.y < bounds.height )
 			{
-				ship_y += ship_speed;
+				ship_pos.y += ship_speed;
 			}
-			else if( ship_x >= right_bounds && ship_y > 0.f )
+			else if( ship_pos.x >= bounds.width && ship_pos.y > 0.f )
 			{
-				ship_y -= ship_speed;
+				ship_pos.y -= ship_speed;
 			}
 		}
-	}
+	}*/
 
 	// Fire bullet
-	if( wnd.kbd.KeyIsPressed( VK_SPACE ) )
+	/*if( wnd.kbd.KeyIsPressed( VK_SPACE ) )
 	{
 		if( fire_rate_tracker >= fire_rate )
 		{
@@ -143,43 +128,57 @@ void Game::UpdateModel()
 				fire_rate_tracker = 0.f;
 
 				// Helpful var to determine ships center for bullet spawning
-				const float ship_half_size = ship_size * .5f;
+				const SizeF ship_half_size = ship_size * .5f;
 
 				// Set bullet to ship center
-				const float ship_center_x = ship_x + ship_half_size;
-				const float ship_center_y = ship_y + ship_half_size;
-				bullet_x[ bullet_count ] = ship_center_x;
-				bullet_y[ bullet_count ] = ship_center_y;
+				const Vector ship_center = ( ship_pos + ship_half_size );
+				bullet_pos[ bullet_count ] = ship_center;
 
 				// Determine travel direction of bullet
-				const float dx = ( screen_width * .5f ) - ship_center_x;
-				const float dy = ( screen_height * .5f ) - ship_center_y;
-				const float rcp_dist = 1.f / sqrt( dx*dx + dy*dy );
-				bullet_vx[ bullet_count ] = dx * rcp_dist;
-				bullet_vy[ bullet_count ] = dy * rcp_dist;
+				const auto half_screen = screen_size * .5f;
+				bullet_vel[ bullet_count ] = ( half_screen - ship_center ).GetNormal();
 
 				// Increase bullet count
 				++bullet_count;
 			}
 		}
+	}*/
+}
+
+Vector Game::ClampToScreen( const Vector & Pos, const SizeF & Size )
+{
+	return Vector(
+		std::max( 0.f, std::min( Pos.x, amalgum.screen_size.width - Size.width ) ),
+		std::max( 0.f, std::min( Pos.y, amalgum.screen_size.height - Size.height ) )
+	);
+}
+
+bool Game::IsInView( const Vector & Pos, const SizeF & Size )
+{
+	return (
+		( Pos.x + Size.width >= 0.f && Pos.x <  amalgum.screen_size.width ) &&
+		( Pos.y + Size.height >= 0.f && Pos.y < amalgum.screen_size.height ) );
+}
+
+void Game::ShiftBulletArrays(unsigned int Idx)
+{
+	for( unsigned int j = Idx + 1; j < bullet_count; ++j )
+	{
+		const int k = j - 1;
+		std::swap( bullet_pos[ j ], bullet_pos[ k ] );
+		std::swap( bullet_vel[ j ], bullet_vel[ k ] );
 	}
+	--bullet_count;
 }
 
 void Game::ComposeFrame()
-{
-	{ // Draw ship
-		const int x = ( int )ship_x;
-		const int y = ( int )ship_y;
-		const int w = ( int )ship_size;
-		gfx.DrawRect( x, y, w, w, Colors::White );
-	}
-	
+{	
 	{ // Draw bullets
 		for( unsigned int i = 0; i < bullet_count; ++i )
 		{
-			const int x = ( int )bullet_x[ i ];
-			const int y = ( int )bullet_y[ i ];
-			const int w = ( int )bullet_length;
+			const int x = ( int )bullet_pos[ i ].x;
+			const int y = ( int )bullet_pos[ i ].y;
+			const int w = ( int )bullet_size.width;
 			gfx.DrawRect( x, y, w, w, Colors::Cyan );
 		}
 	}

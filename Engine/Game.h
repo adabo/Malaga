@@ -23,11 +23,18 @@
 #include <chrono>
 #include <iostream>
 
-#include "Amalgum.h"
+// Framework includes
 #include "Graphics.h"
 #include "Keyboard.h"
 #include "Mouse.h"
+
+// Malaga includes
+#include "Amalgum.h"
+#include "Draw.h"
+#include "Size.h"
+#include "Vector.h"
 #include "Wic.h"
+
 
 
 //class MyClass
@@ -92,42 +99,42 @@ private:
 	void UpdateModel();
 	/********************************/
 	/*  User Functions              */
+	Vector ClampToScreen( const Vector &Pos, const SizeF &Size );
+	bool IsInView( const Vector &Pos, const SizeF &Size );
+
+	// Temp only, remove after adding Bullet/Projectile class and implementing
+	// std::vector instead of raw arrays
+	void ShiftBulletArrays( unsigned int Idx );
 	/********************************/
 private:
 	MainWindow& wnd;
 	Graphics gfx;
 
-	// I've grown accustomed to useing m_ for member prefix
-	// I will still use (_) for rest of name instead of camel case
 	// WIC stands for (Windows Imaging Component) it's the new
 	// API for loading images after GDI+
 	//
 	// I'm also going to try using C++ exceptions for this project,
 	// make it a learning experience for me as well, so it doesn't
 	// get stale.
-	Wic m_wic;
+	Wic wic;
 
-	Amalgum m_amalgum;
+	Amalgum amalgum;
+	Draw draw;
 
 	// Temp ship variables
-	float ship_x = 0.f;
-	float ship_y = 0.f;
+	Vector ship_pos = { 0.f, 0.f };
+	const SizeF ship_size = { 32.f, 32.f };
 	const float ship_speed = 3.f;
-	const float ship_size = 32.f;
 
 	// Temp bullet variables
 	constexpr static unsigned int max_bullets = 10u;
 	unsigned int bullet_count = 0;
-	float bullet_x[ max_bullets ];
-	float bullet_y[ max_bullets ];
-	float bullet_vx[ max_bullets ];
-	float bullet_vy[ max_bullets ];
-	const float bullet_length = 5.f;
+	Vector bullet_pos[ max_bullets ];
+	Vector bullet_vel[ max_bullets ];
+	const SizeF bullet_size = { 5.f, 5.f };
 	const float bullet_speed = 10.f;
-	constexpr static float fire_rate = .1f;
-	float fire_rate_tracker = 0.f;
 
-	float m_frame_time = 0.f;
+	float frame_time = 0.f;
 	
 	// Temp enemy variables
 	// TODO: Create three enemies

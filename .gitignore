@@ -272,5 +272,8 @@ __pycache__/
 *.pyc
 
 # Cake - Uncomment if you are using it
-# tools/**
-# !tools/packages.config
+# tools/
+
+# -----------Added by Josh ---------- .shh files which are shader header files in chili framework
+*.shh
+*.db
