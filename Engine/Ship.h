@@ -1,7 +1,6 @@
 #pragma once
 #include "Vector."
 #include "Entity.h"
-#include "Input.h" 
 
 class Ship : public Entity
 {
