@@ -168,7 +168,7 @@
     <ClInclude Include="StarField.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Timer.h" />
-    <ClInclude Include="Upgrade.h" />
+    <ClInclude Include="UpgradeController.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Weapon.h" />
@@ -202,7 +202,7 @@
     <ClCompile Include="StarField.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="Upgrade.cpp" />
+    <ClCompile Include="UpgradeController.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Wic.cpp" />
@@ -276,6 +276,7 @@
     <Image Include="Chili.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="..\design_pattern.txt" />
     <Text Include="..\malagaMKII.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
