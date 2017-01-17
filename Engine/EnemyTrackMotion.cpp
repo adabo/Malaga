@@ -15,6 +15,7 @@ bool EnemyTrackMotion::IsColliding( const Vector & OtherPosition, float Width, f
 void EnemyTrackMotion::DoCollision( float CollisionCost )
 {
 	hp -= CollisionCost;
+	is_alive = hp > 0.f;
 }
 
 void EnemyTrackMotion::Update( float Dt )
