@@ -1,17 +1,18 @@
 #pragma once
+
 #include "Entity.h"
 
-class EnemyLastKnownPos : public Entity
+class Graphics;
+
+class EnemyTrackStatic : public Entity
 {
 public:
-	EnemyTrackStatic();
+	EnemyTrackStatic( const Vector &Pos, const Vector &Heading, int Width,
+					   int Height, float Speed = 30.f, float HP = 1.f,
+					   float Damage = .1f, Color C = Colors::Black );
 
-	void SpawnEnemyTrackStatic(Vector &Player);
+	void Update( float Dt )override;
+	void Draw( Graphics &Gfx )override;
 
-	void Update( float Dt J);
-	void Draw();
-
-
-public:
-	Vector *p_player_position;
+	Color color;
 };

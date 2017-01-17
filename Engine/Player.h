@@ -14,7 +14,7 @@ public:
 private:
 	Keyboard &keyboard;
 	Amalgum &amalgum;
-	Ship ship;
+	Ship &ship;
 	constexpr static float fire_rate = .1f;
 	float fire_rate_tracker = 0.f;
 };

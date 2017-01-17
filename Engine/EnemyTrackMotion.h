@@ -9,9 +9,8 @@ class EnemyTrackMotion :
 	public Entity
 {
 public:
-	EnemyTrackMotion(const Vector &Pos, const Vector &Dir, float Width, float Height, Color C);
-	~EnemyTrackMotion();
-		
+	EnemyTrackMotion( const Vector &Pos, const Vector &Dir, float Width, float Height, Color C );
+
 	bool IsColliding( const Vector &OtherPosition, float Width, float Height )const override;
 	void DoCollision( float CollisionCost ) override;
 
@@ -22,6 +21,6 @@ public:
 
 private:
 	Vector player_pos;
-
+	Color color;
 };
 

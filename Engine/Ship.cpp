@@ -1,9 +1,9 @@
 #include "Ship.h"
 
-Ship::Ship()
+Ship::Ship( Vector Pos, bool IsColliding = false )
 {}
 
-void Ship::Draw( Vector Pos, bool IsColliding = false )
+void Ship::Draw()
 {}
 
 void Ship::Update()
