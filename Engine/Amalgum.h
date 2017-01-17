@@ -24,6 +24,7 @@ struct Amalgum
 	std::vector<EnemyTrackMotion> enemy_homing_list;
 	Level level;
 
+	Ship ship;
 	Player player;
 	Timer timer;
 
