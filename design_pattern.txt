@@ -1,0 +1,20 @@
+Malaga game design pattern
+
+We shall use the Amalgum struct to hold objects that can be
+	a) Drawn
+	b) Updated
+
+Pass Amalgum object as &reference to it's created objects
+	Objects
+	-------
+	1) Player
+	2) Ship
+	3) Weapon
+	4) Level
+	5) Enemy
+	6) Projectiles
+	7) Text
+
+Game object will create store Amalgum object
+Flow control
+
