@@ -20,7 +20,6 @@ void EnemyTrackMotion::DoCollision( float CollisionCost )
 
 void EnemyTrackMotion::Update( float Dt )
 {
-
 	const Vector diff = player_pos - position;
 	const Vector direction = diff.Normalize() * Dt;
 

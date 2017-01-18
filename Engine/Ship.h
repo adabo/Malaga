@@ -10,11 +10,17 @@ public:
 	void Draw();
 	void Update();
 
-	bool IsColliding();
+	bool IsColliding( const Vector &OtherPosition, float Width, float Height )override;
+	bool DoCollision( float CollisionCost )override;
 	void DoInput();
 	void ClampToScreenEdges();
 
 public:
-	Vector pos;
-	bool is_colliding;
+	
+	bool is_colliding,
+		 // Keyboard + mouse input
+	     is_left_pressed,
+	     is_right_pressed,
+	     is_space_pressed,
+	     is_Lmouse_pressed;
 };
