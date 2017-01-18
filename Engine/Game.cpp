@@ -42,8 +42,11 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+#if !defined(_DEBUG)
 	const float frame_time = amalgum.timer.Reset();
-
+#else
+	const float frame_time = 1.f / 60.f;
+#endif
 	// Update star field background
 	amalgum.stars.Update( frame_time );
 

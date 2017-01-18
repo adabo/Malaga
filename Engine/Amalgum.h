@@ -40,7 +40,7 @@ struct Amalgum
 	View view;
 	Weapon weapon;
 
-	constexpr unsigned max_bullets = 10u;
+	static constexpr unsigned max_bullets = 10u;
 
 };
 

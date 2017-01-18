@@ -135,9 +135,6 @@
     <ClInclude Include="Spawner.h">
       <Filter>Header Files\Abel Files</Filter>
     </ClInclude>
-    <ClInclude Include="Upgrade.h">
-      <Filter>Header Files\Abel Files</Filter>
-    </ClInclude>
     <ClInclude Include="Vector.h">
       <Filter>Header Files\Abel Files</Filter>
     </ClInclude>
@@ -152,6 +149,9 @@
     </ClInclude>
     <ClInclude Include="Reaper.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UpgradeController.h">
+      <Filter>Header Files\Abel Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -183,9 +183,6 @@
       <Filter>Source Files\Abel Files</Filter>
     </ClCompile>
     <ClCompile Include="Vector.cpp">
-      <Filter>Source Files\Abel Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Upgrade.cpp">
       <Filter>Source Files\Abel Files</Filter>
     </ClCompile>
     <ClCompile Include="Spawner.cpp">
@@ -253,6 +250,9 @@
     </ClCompile>
     <ClCompile Include="Reaper.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UpgradeController.cpp">
+      <Filter>Source Files\Abel Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

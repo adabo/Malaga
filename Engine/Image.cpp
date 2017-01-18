@@ -1,13 +1,15 @@
 #include "Image.h"
 #include "Colors.h"
+#include "Vector.h"
 #include <iomanip>
 
 Image::Image( const std::wstring &Filename, const Wic &crWic )
-
 {
-	Microsoft::WRL::ComPtr<IWICBitmapDecoder> pDecoder;
-	Microsoft::WRL::ComPtr<IWICBitmapFrameDecode> pFrame;
-	Microsoft::WRL::ComPtr<IWICFormatConverter> pConverter;
+	using Microsoft::WRL::ComPtr;
+
+	ComPtr<IWICBitmapDecoder> pDecoder;
+	ComPtr<IWICBitmapFrameDecode> pFrame;
+	ComPtr<IWICFormatConverter> pConverter;
 
 	GUID container_type;
 	std::wstring ext = Filename.substr( Filename.size() - 3, 3 );

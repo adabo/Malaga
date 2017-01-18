@@ -7,6 +7,7 @@
 #include "Mouse.h"
 
 class Graphics;
+class Wic;
 
 class Text
 {
@@ -17,7 +18,7 @@ public:
     };
 public:
 	Text() = default;
-	Text( const std::string &Str, int X, int Y, WhichFont Type, Color DefaultColor, Color MouseOverColor );
+	Text( const std::string &Str, int X, int Y, WhichFont Type, Color DefaultColor, Color MouseOverColor, const Wic &rWic );
 
     void Draw( Graphics &Gfx);
     bool Update(Mouse& Mouse);
@@ -42,10 +43,9 @@ private:
     std::string str;
     WhichFont type;
 	Color default_color, mouse_over_color, active_color;
-    static Color fixedSys_surf[512 * 84]; // fixedSys
-    static Color edges_surf[160 * 29];    // edges
-    static Font fixedSys;
-    static Font edges;
-    Font *font;
+    Font fixedSys;
+    Font edges;
+
+	Font *font;
     bool left_is_pressed;
 };

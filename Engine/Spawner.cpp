@@ -33,7 +33,7 @@ void Spawner::SetScreenSide( Spawner::ScreenSide Side )
 	side = Side;
 }
 
-void Spawner::SpawnEnemyHoming()
+void Spawner::SpawnEnemyTrackMotion()
 {
 	// TODO: Use Josh's Random class instead of rand()
 	// Random functions are static so you don't have to create a Random 
@@ -49,12 +49,12 @@ void Spawner::SpawnEnemyHoming()
 	// TODO: Generate position, speed and color
 	// Don't need to generate direction since the direction will 
 	// be calculated each frame
-	Vector temp( rand() % ;
-	EnemyHoming enemy_homing( temp );
-	amalgum.enemyhoming.push_back( enemy_homing );
+	//Vector temp( rand() % ;
+	//EnemyTrackMotion enemy_homing( temp );
+	//amalgum.enemyhoming.push_back( enemy_homing );
 }
 
-void Spawner::SpawnEnemyLastKnownPosition()
+void Spawner::SpawnEnemyTrackStatic()
 {
 	// TODO: Calculate enemy direction, generate position, speed and color
 	// Create a EnemyLastKnownPos object using generated and calculated values

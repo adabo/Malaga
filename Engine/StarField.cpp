@@ -1,21 +1,17 @@
 #include "StarField.h"
 #include "Graphics.h"
+#include "Random.h"
 
 StarField::StarField()
 	:
-	rng( std::seed_seq() ),
 	m_stars( m_star_count )
 {
-	std::uniform_int_distribution<int> xDist( 0, Graphics::ScreenWidth );
-	std::uniform_int_distribution<int> yDist( 0, Graphics::ScreenHeight );
-	std::uniform_real_distribution<float> spdDist( 0.f, 4.f );
-
 	for( auto &star : m_stars)
 	{
-		const float x = static_cast<float>( xDist( rng ) );
-		const float y = static_cast<float>( yDist( rng ) );
+		const float x = Random::GetRandomFloat( 0.f, static_cast< float >( Graphics::ScreenWidth - 1 ) );
+		const float y = Random::GetRandomFloat( 0.f, static_cast< float >( Graphics::ScreenHeight - 1 ) );
 		star.m_pos = Vector( x, y );
-		star.m_speed = spdDist( rng );
+		star.m_speed = Random::GetRandomFloat( 0.f, 15.f );
 	}
 }
 
@@ -27,11 +23,15 @@ void StarField::Update( float Dt )
 		pos.y += ( star.m_speed * Dt );
 		
 		if( pos.y >= static_cast< float >( Graphics::ScreenHeight ) )
-		{
-			std::uniform_int_distribution<int> xDist( 0, Graphics::ScreenWidth );
-			std::uniform_real_distribution<float> spdDist( 0.f, 4.f );
-			pos.x = static_cast<float>( xDist( rng ) );
-			star.m_speed = spdDist( rng );
+		{	
+			pos.x = Random::GetRandomFloat( 0.f, static_cast< float >( Graphics::ScreenWidth - 1 ) );
+			pos.y = 0.f;
+			star.m_speed = Random::GetRandomFloat( 0.f, 15.f );
+			if( pos.x < 0.f || pos.x >= 800.f ||
+				pos.y < 0.f || pos.y >= 600.f )
+			{
+				int a = 0;
+			}
 		}
 	}
 }
@@ -40,8 +40,8 @@ void StarField::Draw( Graphics & Gfx )const
 {
 	for( auto &star : m_stars )
 	{
-		const int x = static_cast< int >( star.m_pos.x );
-		const int y = static_cast< int >( star.m_pos.y );
+		const int x = max( static_cast< int >( star.m_pos.x ) - 1, min( Graphics::ScreenWidth - 1, 0 ) );
+		const int y = max( static_cast< int >( star.m_pos.y ) - 1, min( Graphics::ScreenHeight - 1, 0 ) );
 		Gfx.PutPixel( x, y, Colors::White );
 	}
 }

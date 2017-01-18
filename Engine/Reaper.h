@@ -20,3 +20,6 @@ public:
 			Container.erase( new_end, old_end );
 	}
 };
+
+
+// *************

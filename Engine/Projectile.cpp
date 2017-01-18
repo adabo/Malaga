@@ -4,9 +4,8 @@
 Projectile::Projectile( const Vector & Pos, const Vector & Heading, int Width,
 						int Height, float Speed, float HP, float Damage )
 	:
-	Entity( Pos, Heading, Width, Height, Speed, HP, Damage )
+	Entity( Pos, Heading * Speed, Width, Height, Speed, HP, Damage )
 {
-	velocity = Heading * Speed;
 }
 
 void Projectile::Update( float Dt )

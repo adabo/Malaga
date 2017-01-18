@@ -11,9 +11,6 @@ class EnemyTrackMotion :
 public:
 	EnemyTrackMotion( const Vector &Pos, const Vector &Dir, float Width, float Height, Color C );
 
-	bool IsColliding( const Vector &OtherPosition, float Width, float Height )const override;
-	void DoCollision( float CollisionCost ) override;
-
 	void Update( float Dt )override;
 	void Draw( Graphics &Gfx )override;
 

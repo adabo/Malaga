@@ -26,27 +26,27 @@ void Player::Update( float Dt )
 	);
 	const SizeF bounds = screen - ship_size - SizeF( 1.f, 1.f );
 
-	Vector ship_pos = ship.pos;
+	
 	Vector ship_direction{};
 
 	// Move clockwise
 	if( keyboard.KeyIsPressed( VK_LEFT ) || keyboard.KeyIsPressed( 'A' ) )
 	{
-		if( ship_pos.y <= 0.f && ship_pos.x < bounds.width )
+		if( ship.position.y <= 0.f && ship.position.x < bounds.width )
 		{
 			ship_direction = { 1.f, 0.f };
 		}
-		else if( ship_pos.y >= bounds.height && ship_pos.x > 0.f )
+		else if( ship.position.y >= bounds.height && ship.position.x > 0.f )
 		{
 			ship_direction = { -1.f, 0.f };
 		}
 		else
 		{
-			if( ship_pos.x <= 0.f && ship_pos.y > 0.f )
+			if( ship.position.x <= 0.f && ship.position.y > 0.f )
 			{
 				ship_direction = { 0.f, -1.f };
 			}
-			else if( ship_pos.x >= bounds.width && ship_pos.y < bounds.height )
+			else if( ship.position.x >= bounds.width && ship.position.y < bounds.height )
 			{
 				ship_direction = { 0.f, 1.f };
 			}
@@ -56,21 +56,21 @@ void Player::Update( float Dt )
 	// Move counter clockwise
 	else if( keyboard.KeyIsPressed( VK_RIGHT ) || keyboard.KeyIsPressed( 'D' ) )
 	{
-		if( ship_pos.y <= 0.f && ship_pos.x > 0.f )
+		if( ship.position.y <= 0.f && ship.position.x > 0.f )
 		{
 			ship_direction = { -1.f, 0.f };
 		}
-		else if( ship_pos.y >= bounds.height && ship_pos.x < bounds.width )
+		else if( ship.position.y >= bounds.height && ship.position.x < bounds.width )
 		{
 			ship_direction = { 1.f, 0.f };
 		}
 		else
 		{
-			if( ship_pos.x <= 0.f && ship_pos.y < bounds.height )
+			if( ship.position.x <= 0.f && ship.position.y < bounds.height )
 			{
 				ship_direction = { 0.f, 1.f };
 			}
-			else if( ship_pos.x >= bounds.width && ship_pos.y > 0.f )
+			else if( ship.position.x >= bounds.width && ship.position.y > 0.f )
 			{
 				ship_direction = { 0.f, -1.f };
 			}
