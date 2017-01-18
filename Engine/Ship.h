@@ -12,12 +12,4 @@ public:
 	void Draw( Graphics &Gfx ) override;
 	void ClampToScreenEdges();
 
-public:
-	
-	bool is_colliding,
-		 // Keyboard + mouse input
-	     is_left_pressed,
-	     is_right_pressed,
-	     is_space_pressed,
-	     is_Lmouse_pressed;
 };
