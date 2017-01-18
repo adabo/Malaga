@@ -333,21 +333,41 @@ void Graphics::DrawRect( int X, int Y, int Width, int Height, Color C )
 	}
 }
 
+void Graphics::DrawRectOutline( int X, int Y, int Width, int Height, Color C )
+{
+	const int left = X;
+	const int top = Y;
+	const int right = X + Width;
+	const int bottom = Y + Height;
+
+	// Draw top
+	DrawLine( left,  top,	 right, top,	C );
+	// Draw bottom
+	DrawLine( left,  bottom, right, bottom, C );
+	// Draw left
+	DrawLine( left,  top,	 left,  bottom, C );
+	// Draw right
+	DrawLine( right, top,	 right, bottom, C );
+}
+
 void Graphics::DrawCircle( int Cx, int Cy, int Radius, Color C )
 {
 	int radius_squared = Radius * Radius;
 	int x_pivot = ( int )( Radius * 0.70710678118f + 0.5f );
+
+	auto DrawQuadrant = [ this, Cx, Cy, C ]( int X, int Y )
+	{
+		PutPixel( Cx + X, Cy + Y, C );
+		PutPixel( Cx - X, Cy + Y, C );
+		PutPixel( Cx + X, Cy - Y, C );
+		PutPixel( Cx - X, Cy - Y, C );
+	};
+
 	for( int x = 0; x <= x_pivot; x++ )
 	{
 		int y = ( int )( sqrtf( ( radius_squared - ( x*x ) ) ) + 0.5f );
-		PutPixel( Cx + x, Cy + y, C );
-		PutPixel( Cx - x, Cy + y, C );
-		PutPixel( Cx + x, Cy - y, C );
-		PutPixel( Cx - x, Cy - y, C );
-		PutPixel( Cx + y, Cy + x, C );
-		PutPixel( Cx - y, Cy + x, C );
-		PutPixel( Cx + y, Cy - x, C );
-		PutPixel( Cx - y, Cy - x, C );
+		DrawQuadrant( x, y );
+		DrawQuadrant( y, x );
 	}
 }
 
@@ -356,7 +376,7 @@ void Graphics::DrawLine( int x1, int y1, int x2, int y2, Color c )
 	const int dx = x2 - x1;
 	const int dy = y2 - y1;
 
-	if( dy == 0 && dx == 0 )
+	if( ( dy == 0 && dx == 0 ) && ( x1 > 0 && x2 < ScreenWidth ) && (y1 > 0 && y2 < ScreenHeight ) )
 	{
 		PutPixel( x1, y1, c );
 	}
@@ -364,18 +384,18 @@ void Graphics::DrawLine( int x1, int y1, int x2, int y2, Color c )
 	{
 		if( dy < 0 )
 		{
-			int temp = x1;
-			x1 = x2;
-			x2 = temp;
-			temp = y1;
-			y1 = y2;
-			y2 = temp;
+			std::swap( x1, x2 );
+			std::swap( y1, y2 );
 		}
 		const float m = ( float )dx / ( float )dy;
 		const float b = x1 - m*y1;
-		for( int y = y1; y <= y2; y = y + 1 )
+
+		const int y_start = std::max( 0, y1 );
+		const int y_end = std::min( ScreenHeight - 1, y2 );
+		for( int y = y_start; y <= y_end; ++y)
 		{
-			int x = ( int )( m*y + b + 0.5f );
+			const int x = ( int )( ( m * y ) + b + 0.5f );
+			if( x >= ScreenWidth|| x < 0 ) return;			
 			PutPixel( x, y, c );
 		}
 	}
@@ -383,18 +403,18 @@ void Graphics::DrawLine( int x1, int y1, int x2, int y2, Color c )
 	{
 		if( dx < 0 )
 		{
-			int temp = x1;
-			x1 = x2;
-			x2 = temp;
-			temp = y1;
-			y1 = y2;
-			y2 = temp;
+			std::swap( x1, x2 );
+			std::swap( y1, y2 );
 		}
 		const float m = ( float )dy / ( float )dx;
 		const float b = y1 - m*x1;
-		for( int x = x1; x <= x2; x = x + 1 )
+
+		const int x_start = std::max( 0, x1 );
+		const int x_end = std::min( ScreenWidth - 1, x2 );
+		for( int x = x_start; x <= x_end; ++x )
 		{
-			int y = ( int )( m*x + b + 0.5f );
+			const int y = ( int )( m*x + b + 0.5f );
+			if( y >= ScreenHeight || y < 0 ) return;
 			PutPixel( x, y, c );
 		}
 	}

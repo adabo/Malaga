@@ -5,7 +5,7 @@
 
 inline Vector operator+( const SizeF &Size, const Vector &V )
 {
-	return Vector( V.x + Size.width, V.y + Size.height );
+	return Vector( Size.width + V.x, Size.height + V.y );
 }
 inline Vector operator+( const Vector &V, const SizeF &Size)
 {
@@ -14,7 +14,7 @@ inline Vector operator+( const Vector &V, const SizeF &Size)
 
 inline Vector operator-( const SizeF &Size, const Vector &V )
 {
-	return Vector( V.x - Size.width, V.y - Size.height );
+	return Vector( Size.width - V.x, Size.height - V.y );
 }
 inline Vector operator-( const Vector &V, const SizeF &Size )
 {
