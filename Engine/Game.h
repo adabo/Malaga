@@ -44,6 +44,8 @@ private:
 	void UpdateModel();
 	/********************************/
 	/*  User Functions              */
+	void HandleCollisions();
+	void ClearDeadEntities();
 	/********************************/
 private:
 	MainWindow& wnd;
@@ -59,15 +61,4 @@ private:
 
 	Amalgum amalgum;
 	
-
-	float frame_time = 0.f;
-	
-	// Temp enemy variables
-	// TODO: Create three enemies
-	// TODO: Decide formula for ship speeds
-	/*
-	1) Moves straight (from any side ?)
-	2) Moves straight at player's current position when spawned
-	3) Chases player
-	*/
 };

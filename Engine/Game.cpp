@@ -21,26 +21,19 @@
 #include "MainWindow.h"
 #include "Collision.h"
 #include "Game.h"
+#include "Reaper.h"
 #include "Utilities.h"
+
 
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	amalgum( wnd.kbd ),
-	draw( amalgum )
-{
-	for( int i = 0; i < max_bullets; ++i )
-	{
-		bullet_pos[ i ] = { 0.f, 0.f };
-		bullet_vel[ i ] = { 0.f, 0.f };
-	}
-}
+	amalgum( wnd.kbd, wnd.mouse )
+{}
 
 void Game::Go()
 {
-	frame_time = amalgum.timer.Reset();
-
 	UpdateModel();
 	gfx.BeginFrame();
 	ComposeFrame();
@@ -49,101 +42,106 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	const float frame_time = amalgum.timer.Reset();
+
 	// Update star field background
 	amalgum.stars.Update( frame_time );
 
 	// Clamp the ship to the edges
 	amalgum.ship.ClampToScreenEdges();
-
+	
 	// Update bullet movement
 	for( unsigned int i = 0; i < amalgum.projectile_list.size(); ++i )
 	{
 		// Update bullet positions
 		amalgum.projectile_list[ i ].Update( frame_time );
-
-		// Check if bullet off screen
-		if( !Collision::IsInView( amalgum.projectile_list[i] ) )
-		{
-			amalgum.projectile_list[ i ].is_alive = false;
-		}
 	}
 	
-	// Update ship movement
+	// Handle user input
 	amalgum.player.Update( frame_time );
-	// Move clockwise
-	/*if( wnd.kbd.KeyIsPressed( VK_LEFT ) || wnd.kbd.KeyIsPressed( 'A' ) )
+
+	// Update ship movement
+	amalgum.ship.Update( frame_time );
+
+	// Update fire rate tracker or bullet spawn timer
+	amalgum.weapon.Update( frame_time );
+
+	// Check for and handle collisions
+	HandleCollisions();
+
+	// Remove dead entities from entity vectors
+	ClearDeadEntities();
+}
+
+void Game::HandleCollisions()
+{
+	for( Projectile &proj : amalgum.projectile_list )
 	{
-		if( ship_pos.y <= 0.f && ship_pos.x < bounds.width )
-		{
-			ship_pos.x += ship_speed;
-		}
-		else if( ship_pos.y >= bounds.height && ship_pos.x > 0.f )
-		{
-			ship_pos.x -= ship_speed;
-		}
-		else
-		{
-			if( ship_pos.x <= 0.f && ship_pos.y > 0.f )
-			{
-				ship_pos.y -= ship_speed;
-			}
-			else if( ship_pos.x >= bounds.width && ship_pos.y < bounds.height )
-			{
-				ship_pos.y += ship_speed;
-			}
-		}
-	}*/
+		// Check is alive and if bullet off screen 
+		proj.is_alive = proj.is_alive && Collision::IsInView( proj );
 
-	// Move counter clockwise
-	/*if( wnd.kbd.KeyIsPressed( VK_RIGHT ) || wnd.kbd.KeyIsPressed( 'D' ) )
+		for( auto& enemy : amalgum.enemy_homing_list )
+		{
+			Collision::DoCollision( proj, enemy );
+		}
+		for( auto& enemy : amalgum.enemy_last_known_list )
+		{
+			Collision::DoCollision( proj, enemy );
+		}
+		for( auto& enemy : amalgum.enemy_straight_list )
+		{
+			Collision::DoCollision( proj, enemy );
+		}
+	}
+
+	for( auto &enemy : amalgum.enemy_homing_list )
 	{
-		if( ship_pos.y <= 0.f && ship_pos.x > 0.f )
-		{
-			ship_pos.x -= ship_speed;
-		}
-		else if( ship_pos.y >= bounds.height && ship_pos.x < bounds.width )
-		{
-			ship_pos.x += ship_speed;
-		}
-		else
-		{
-			if( ship_pos.x <= 0.f && ship_pos.y < bounds.height )
-			{
-				ship_pos.y += ship_speed;
-			}
-			else if( ship_pos.x >= bounds.width && ship_pos.y > 0.f )
-			{
-				ship_pos.y -= ship_speed;
-			}
-		}
-	}*/
+		// If enemy is heading in a direction and is offscreen on the side
+		// they were heading, then they need to die.
+		//
+		// For instance, enemy started on right side of screen and heading left.
+		// If they are off screen on the right but heading left, then they can
+		// still live, but if they are heading left and are off screen on the 
+		// left, then they die.
+		const bool enemy_offscreen = !Collision::IsInView( enemy );
+		enemy.is_alive = (
+			( ( enemy.velocity.x > 0.f ) && enemy_offscreen ) ||
+			( ( enemy.velocity.x < 0.f ) && enemy_offscreen ) ||
+			( ( enemy.velocity.y > 0.f ) && enemy_offscreen ) ||
+			( ( enemy.velocity.y < 0.f ) && enemy_offscreen ) );
 
-	// Fire bullet
-	/*if( wnd.kbd.KeyIsPressed( VK_SPACE ) )
+		Collision::DoCollision( amalgum.ship, enemy );
+	}
+	for( auto &enemy : amalgum.enemy_last_known_list )
 	{
-		if( fire_rate_tracker >= fire_rate )
-		{
-			if( bullet_count < max_bullets )
-			{
-				// Reset fire rate tracker
-				fire_rate_tracker = 0.f;
+		const bool enemy_offscreen = !Collision::IsInView( enemy );
+		enemy.is_alive = (
+			( ( enemy.velocity.x > 0.f ) && enemy_offscreen ) ||
+			( ( enemy.velocity.x < 0.f ) && enemy_offscreen ) ||
+			( ( enemy.velocity.y > 0.f ) && enemy_offscreen ) ||
+			( ( enemy.velocity.y < 0.f ) && enemy_offscreen ) );
 
-				// Helpful var to determine ships center for bullet spawning
-				const SizeF ship_half_size = ship_size * .5f;
+		Collision::DoCollision( amalgum.ship, enemy );
+	}
+	for( auto &enemy : amalgum.enemy_straight_list )
+	{
+		const bool enemy_offscreen = !Collision::IsInView( enemy );
+		enemy.is_alive = (
+			( ( enemy.velocity.x > 0.f ) && enemy_offscreen ) ||
+			( ( enemy.velocity.x < 0.f ) && enemy_offscreen ) ||
+			( ( enemy.velocity.y > 0.f ) && enemy_offscreen ) ||
+			( ( enemy.velocity.y < 0.f ) && enemy_offscreen ) );
 
-				// Set bullet to ship center
-				const Vector ship_center = ( ship_pos + ship_half_size );
-				bullet_pos[ bullet_count ] = ship_center;
+		Collision::DoCollision( amalgum.ship, enemy );
+	}
+}
 
-				// Determine travel direction of bullet
-				const auto half_screen = screen_size * .5f;
-				bullet_vel[ bullet_count ] = ( half_screen - ship_center ).GetNormal();
-
-				// Increase bullet count
-				++bullet_count;
-			}
-		}
-	}*/
+void Game::ClearDeadEntities()
+{
+	Reaper::ClaimDead( amalgum.projectile_list );
+	Reaper::ClaimDead( amalgum.enemy_homing_list );
+	Reaper::ClaimDead( amalgum.enemy_last_known_list );
+	Reaper::ClaimDead( amalgum.enemy_straight_list );
 }
 
 void Game::ComposeFrame()

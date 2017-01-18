@@ -77,19 +77,13 @@ void Player::Update( float Dt )
 		}
 	}
 
-	// Update fire rate tracker or bullet spawn timer
-	fire_rate_tracker += Dt;
-
 	// Fire bullet
 	if( keyboard.KeyIsPressed( VK_SPACE ) )
 	{
-		if( fire_rate_tracker >= fire_rate )
+		if( amalgum.weapon.CanFire() )
 		{
 			if( amalgum.projectile_list.size() < amalgum.max_bullets )
 			{
-				// Reset fire rate tracker
-				fire_rate_tracker = 0.f;
-		
 				// Helpful var to determine ships center for bullet spawning
 				const SizeF ship_half_size = ship_size * .5f;
 		
@@ -103,7 +97,6 @@ void Player::Update( float Dt )
 	}
 
 	amalgum.ship.velocity = ( ship_direction * ship.speed );
-	ship.Update( Dt );
 }
 
 void Player::Draw( Graphics & Gfx )

@@ -11,12 +11,15 @@ bool Collision::IsColliding( const Entity & A, const Entity & B )
 
 void Collision::DoCollision( Entity & A, Entity & B )
 {
-	if( Collision::IsColliding( A, B ) )
+	if( A.is_alive && B.is_alive )
 	{
-		A.hp -= B.damage;
-		A.is_alive = A.hp > 0.f;
-		B.hp -= A.damage;
-		B.is_alive = B.hp > 0.f;
+		if( Collision::IsColliding( A, B ) )
+		{
+			A.hp -= B.damage;
+			A.is_alive = A.hp > 0.f;
+			B.hp -= A.damage;
+			B.is_alive = B.hp > 0.f;
+		}
 	}
 }
 

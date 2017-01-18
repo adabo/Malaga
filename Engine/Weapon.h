@@ -2,29 +2,19 @@
 
 class Weapon
 {
+public:
 	enum WeaponType
 	{
 		SINGLE, DOUBLE, TRIPLE, QUAD
 	};
 
-public:
 	Weapon();
-
-	void Upgrade()
-	{
-		switch (type)
-		{
-		case SINGLE:
-			type = DOUBLE;
-			break;
-		case DOUBLE:
-			type = TRIPLE;
-			break;
-		case TRIPLE:
-			type = QUAD;
-			break;
-		}
-	}
+	void Upgrade();
+	void Update( float Dt );
+	bool CanFire();
 public:
 	WeaponType type = SINGLE;
+	constexpr static float fire_rate = .1f;
+	float fire_rate_tracker = 0.f;
+	
 };

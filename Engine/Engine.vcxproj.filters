@@ -150,6 +150,9 @@
     <ClInclude Include="View.h">
       <Filter>Header Files\Josh Files</Filter>
     </ClInclude>
+    <ClInclude Include="Reaper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -247,6 +250,9 @@
     </ClCompile>
     <ClCompile Include="View.cpp">
       <Filter>Source Files\Josh Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Reaper.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

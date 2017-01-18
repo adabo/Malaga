@@ -1,30 +1,19 @@
 #include "Ship.h"
+#include "Graphics.h"
 
-Ship::Ship( Vector Pos, bool IsColliding = false )
+Ship::Ship( const Vector & Pos, const Vector & Heading, int Width, int Height, float Speed, float HP, float Damage )
+	:
+	Entity( Pos, Heading, Width, Height, Speed, HP, Damage )
 {}
-
-void Ship::Draw()
-{
-}
 
 void Ship::Update( float Dt )
 {
-	if( is_left_pressed || is_right_pressed )
-	{
-		position.x += speed;
-	}
-	else if( position.y >= Amalgum::screen_size.width )
-	{
-		
+	position = position + velocity;
 }
-
-bool Ship::IsColliding()
-{
-	return false;
-}
-
-void Ship::DoInput()
-{}
 
 void Ship::ClampToScreenEdges()
 {}
+
+void Ship::Draw( Graphics &Gfx )
+{}
+

@@ -1,6 +1,5 @@
 #include "EnemyTrackStatic.h"
-#include <time.h>
-#include <cstdlib>
+#include "Graphics.h"
 
 EnemyTrackStatic::EnemyTrackStatic( const Vector &Pos, const Vector &Heading,
 									  int Width, int Height, float Speed,
@@ -13,12 +12,10 @@ EnemyTrackStatic::EnemyTrackStatic( const Vector &Pos, const Vector &Heading,
 
 void EnemyTrackStatic::Update( float Dt)
 {
-    float frame_step = velocity * Dt;
-    x += frame_step;
-    y += frame_step;
+	position = position + ( velocity * Dt );
 }
 
 void EnemyTrackStatic::Draw( Graphics &Gfx )
 {
-
+	Gfx.DrawRect( position.x, position.y, width, height, color );
 }

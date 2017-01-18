@@ -146,6 +146,7 @@
     <ClInclude Include="ChiliWin.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Colors.h" />
+    <ClInclude Include="Reaper.h" />
     <ClInclude Include="View.h" />
     <ClInclude Include="DXErr.h" />
     <ClInclude Include="EnemyTrackMotion.h" />
@@ -183,6 +184,7 @@
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="Reaper.cpp" />
     <ClCompile Include="View.cpp" />
     <ClCompile Include="DXErr.cpp" />
     <ClCompile Include="EnemyTrackMotion.cpp" />
