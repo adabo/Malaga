@@ -276,4 +276,5 @@ __pycache__/
 
 # -----------Added by Josh ---------- .shh files which are shader header files in chili framework
 *.shh
-*.db
+# tools/**
+# !tools/packages.config
