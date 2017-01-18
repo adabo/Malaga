@@ -8,10 +8,8 @@ EnemyTrackMotion::EnemyTrackMotion( const Vector &Pos, const Vector &Dir, float 
 
 void EnemyTrackMotion::Update( float Dt )
 {
-	const Vector diff = player_pos - position;
-	const Vector direction = diff.Normalize() * Dt;
-
-	position = position + ( direction * speed );
+	velocity = ( player_pos - position ).Normalize() * speed;
+	position = position + ( velocity * Dt );
 }
 
 void EnemyTrackMotion::Draw( Graphics & Gfx )

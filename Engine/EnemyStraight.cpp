@@ -11,7 +11,7 @@ EnemyStraight::EnemyStraight( const Vector & Pos, const Vector & Heading,
 
 void EnemyStraight::Update( float Dt )
 {
-	position = position + velocity;
+	position = position + ( velocity * Dt );
 }
 
 void EnemyStraight::Draw( Graphics & Gfx )

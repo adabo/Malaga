@@ -45,7 +45,7 @@ struct Amalgum
 	UpgradeController upgrader;
 
 	static constexpr unsigned max_bullets = 10u;
-	static constexpr float base_spawn_rate = 1.f;
+	static constexpr float base_spawn_rate = 2.f;
 	int kill_count = 0;
 };
 

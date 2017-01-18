@@ -44,6 +44,7 @@ private:
 	void UpdateModel();
 	/********************************/
 	/*  User Functions              */
+	void UpdateEnemies( float Dt );
 	void HandleCollisions();
 	void ClearDeadEntities();
 	/********************************/

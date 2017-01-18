@@ -10,10 +10,10 @@ StarField::StarField()
 
 	for( auto &star : stars )
 	{
-		const float x = Random::GetRandomFloat( 0.f, Amalgum::screen_size.width );
-		const float y = Random::GetRandomFloat( 0.f, Amalgum::screen_size.height );
+		const float x = Random::GetRandomFloatInRange( 0.f, Amalgum::screen_size.width );
+		const float y = Random::GetRandomFloatInRange( 0.f, Amalgum::screen_size.height );
 		star.pos = Vector( x, y );
-		star.speed = Random::GetRandomFloat( 0.f, 15.f );
+		star.speed = Random::GetRandomFloatInRange( 0.f, 15.f );
 	}
 }
 
@@ -24,7 +24,7 @@ void StarField::Update( float Dt )
 		star.pos.y += ( star.speed * Dt );
 		if( star.pos.y >= Amalgum::screen_size.height )
 		{
-			star.pos.x = Random::GetRandomFloat( 0.f, Amalgum::screen_size.width );
+			star.pos.x = Random::GetRandomFloatInRange( 0.f, Amalgum::screen_size.width );
 			star.pos.y = 0.f;
 		}
 	}

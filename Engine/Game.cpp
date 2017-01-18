@@ -69,6 +69,9 @@ void Game::UpdateModel()
 	// Update fire rate tracker or bullet spawn timer
 	amalgum.weapon.Update( frame_time );
 
+	// Update enemies
+	UpdateEnemies( frame_time );
+	
 	// Check for and handle collisions
 	HandleCollisions();
 
@@ -77,6 +80,22 @@ void Game::UpdateModel()
 
 	// Spawn new enemies, spawn rate handled by spawner
 	amalgum.spawner.Spawn( frame_time );
+}
+
+void Game::UpdateEnemies( float Dt )
+{
+	for( auto &enemy : amalgum.enemy_homing_list )
+	{
+		enemy.Update( Dt );
+	}
+	for( auto &enemy : amalgum.enemy_last_known_list )
+	{
+		enemy.Update( Dt );
+	}
+	for( auto &enemy : amalgum.enemy_straight_list )
+	{
+		enemy.Update( Dt );
+	}
 }
 
 void Game::HandleCollisions()
@@ -131,12 +150,12 @@ void Game::HandleCollisions()
 	}
 	for( auto &enemy : amalgum.enemy_straight_list )
 	{
-		const bool enemy_offscreen = !Collision::IsInView( enemy );
+		const bool enemy_in_view = Collision::IsInView( enemy );
 		enemy.is_alive = (
-			( ( enemy.velocity.x > 0.f ) && enemy_offscreen ) ||
-			( ( enemy.velocity.x < 0.f ) && enemy_offscreen ) ||
-			( ( enemy.velocity.y > 0.f ) && enemy_offscreen ) ||
-			( ( enemy.velocity.y < 0.f ) && enemy_offscreen ) );
+			( ( enemy.velocity.x > 0.f ) && enemy_in_view ) ||
+			( ( enemy.velocity.x < 0.f ) && enemy_in_view ) ||
+			( ( enemy.velocity.y > 0.f ) && enemy_in_view ) ||
+			( ( enemy.velocity.y < 0.f ) && enemy_in_view ) );
 
 		Collision::DoCollision( amalgum.ship, enemy );
 	}
