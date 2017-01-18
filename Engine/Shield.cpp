@@ -35,10 +35,9 @@ void Shield::Draw( const Vector &ShipPosition, Graphics & Gfx )
 	const unsigned char value_green = static_cast<unsigned char>( 255.f * hp );
 	const unsigned char value_red = 255 - value_green;
 
-	Gfx.DrawCircle(
+	Gfx.DrawRectOutline(
 		static_cast< int >( ShipPosition.x ),
-		static_cast< int >( ShipPosition.x ),
-		static_cast< int >( radius ),
-		Color( value_red, value_green, 0 )
+		static_cast< int >( ShipPosition.y ),
+		32,32, Color( value_red, value_green, 0 )
 	);
 }

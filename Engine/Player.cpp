@@ -10,24 +10,20 @@ Player::Player( Keyboard & Kbd, Mouse &Mse, Amalgum &rAmalgum )
 	keyboard( Kbd ),
 	mouse( Mse ),
 	amalgum( rAmalgum ),
-	ship( rAmalgum.ship )
+	ship( amalgum.ship )
 {}
 
 void Player::Update( float Dt )
 {
-	// Helpful vars for checking if ship is on/near edges
-	const SizeF screen = {
-		( float )Graphics::ScreenWidth,
-		( float )Graphics::ScreenHeight
-	};
+	// Helpful vars for checking if ship is on/near edges	
 	const SizeF ship_size = SizeF(
 		static_cast< float >( ship.width ),
 		static_cast< float >( ship.height )
 	);
-	const SizeF bounds = screen - ship_size - SizeF( 1.f, 1.f );
+	const SizeF bounds = Amalgum::screen_size - ship_size - SizeF( 1.f, 1.f );
 
 	
-	Vector ship_direction{};
+	Vector ship_direction{ 0.f, 0.f };
 
 	// Move clockwise
 	if( keyboard.KeyIsPressed( VK_LEFT ) || keyboard.KeyIsPressed( 'A' ) )
@@ -91,7 +87,7 @@ void Player::Update( float Dt )
 				const Vector ship_center = ship.position + ship_half_size;
 
 				// Add projectile to list in amalgum				
-				amalgum.projectile_list.emplace_back( Projectile( ship_center, ( Amalgum::screen_size - ship_center ).Normalize(), 3, 5, 300.f ) );
+				amalgum.projectile_list.emplace_back( Projectile( ship_center, ( ( Amalgum::screen_size * .5f ) - ship_center ).Normalize(), 3, 5, 300.f ) );
 			}
 		}
 	}
@@ -102,4 +98,5 @@ void Player::Update( float Dt )
 void Player::Draw( Graphics & Gfx )
 {
 	ship.Draw( Gfx );
+	amalgum.shield.Draw( ship.position, Gfx );
 }
