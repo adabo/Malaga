@@ -242,17 +242,17 @@
     <ClCompile Include="Wic.cpp">
       <Filter>Source Files\Josh Files</Filter>
     </ClCompile>
-    <ClCompile Include="Projectile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="View.cpp">
       <Filter>Source Files\Josh Files</Filter>
     </ClCompile>
-    <ClCompile Include="Reaper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="UpgradeController.cpp">
       <Filter>Source Files\Abel Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Source Files\Josh Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Reaper.cpp">
+      <Filter>Source Files\Josh Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

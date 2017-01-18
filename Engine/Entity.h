@@ -7,7 +7,10 @@ class Graphics;
 class Entity
 {
 public:
-
+	enum EntityType
+	{
+		PLAYER, PLAYER_AMMO, ENEMY, ENEMY_AMMO
+	};
 	/*Entity( Vector Pos, float Hp, float Speed,
 	bool IsAlive = true, int Width = 0, int Height = 0 );*/
 	// If you can think of any instance where a newly created entity is not alive,
@@ -28,6 +31,7 @@ public:
 	Vector position, velocity;
 	float hp, damage, speed;
 	int	  width, height;
-	bool  is_alive = true;
+	bool  is_alive = true, hit_by_player = false, hit_by_player_ammo = false;
+	EntityType type, hit_by_type;
 };
 

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <math.h>
-
 struct Amalgum;
 
 class Spawner
@@ -12,21 +10,18 @@ public:
 		TOP, BOTTOM, LEFT, RIGHT
 	};
 
-	enum EnemyOrientation
-	{
-		VERTICAL, HORIZONTAL
-	};
-
 	Spawner( Amalgum &Amalgum );
 
+	ScreenSide PickSide()const;
+	Color PickColor()const;
+
+	void Spawn( float Dt );
 	void SpawnEnemyTrackStatic();
 	void SpawnEnemyTrackMotion();
 	void SpawnEnemyStraight();
-
-	void SetEnemyOrientation( EnemyOrientation Orientation );
-	void SetScreenSide( ScreenSide Side );
-
+	
 public:
 	Amalgum &amalgum;
-	ScreenSide side;
+	float spawn_rate, spawn_rate_tracker = 0.f;
+
 };

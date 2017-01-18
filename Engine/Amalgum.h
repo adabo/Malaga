@@ -10,11 +10,13 @@
 #include "Projectile.h"
 #include "Shield.h"
 #include "Ship.h"
+#include "Spawner.h"
 #include "StarField.h"
 #include "Timer.h"
-#include "Weapon.h"
+#include "UpgradeController.h"
 #include "Utilities.h"
 #include "View.h"
+#include "Weapon.h"
 
 class Keybaord;
 class Mouse;
@@ -39,8 +41,11 @@ struct Amalgum
 	StarField stars;
 	View view;
 	Weapon weapon;
+	Spawner spawner;
+	UpgradeController upgrader;
 
 	static constexpr unsigned max_bullets = 10u;
-
+	static constexpr float base_spawn_rate = 1.f;
+	int kill_count = 0;
 };
 

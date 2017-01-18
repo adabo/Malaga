@@ -14,11 +14,14 @@ void Collision::DoCollision( Entity & A, Entity & B )
 	if( A.is_alive && B.is_alive )
 	{
 		if( Collision::IsColliding( A, B ) )
-		{
+		{			
 			A.hp -= B.damage;
 			A.is_alive = A.hp > 0.f;
+			A.hit_by_type = B.type;
+
 			B.hp -= A.damage;
 			B.is_alive = B.hp > 0.f;
+			B.hit_by_type = A.type;
 		}
 	}
 }

@@ -3,12 +3,19 @@
 Level::Level()
 {}
 
+void Level::IncreaseKillCount()
+{
+	++kill_count;
+	if( kill_count >= tier_goal && difficulty_tier < 9 )
+		++difficulty_tier;
+}
+
 int Level::GetDifficulty() const
 {
-	return m_difficulty_tier;
+	return difficulty_tier;
 }
 
 void Level::SetDifficulty( int Lvl )
 {
-	m_difficulty_tier = Lvl;
+	difficulty_tier = Lvl;
 }

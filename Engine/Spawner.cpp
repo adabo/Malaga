@@ -1,13 +1,12 @@
 #include "Spawner.h"
 #include "Amalgum.h"
+#include "EnemyStraight.h"
 #include "Random.h"
-// TODO: Need to include Amalgum.h here
-// TODO: Need to include Random.h here
-// Check out Random.h to see what functions are available
 
 Spawner::Spawner( Amalgum &Amalgum )
 	:
-	amalgum( Amalgum )
+	amalgum( Amalgum ),
+	spawn_rate( Amalgum::base_spawn_rate )
 {}
 
 // TODO: Function Spawner::SetEnemyOrientation not declared in .h file
@@ -15,53 +14,230 @@ Spawner::Spawner( Amalgum &Amalgum )
 //void Spawner::SetEnemyOrientation()
 //{
 //}
-	
 
-void Spawner::SetScreenSide( Spawner::ScreenSide Side )
+Spawner::ScreenSide Spawner::PickSide() const
 {
-	// TODO: Decide what function Spawner::SetScreenSide is going to do
-	int row, col;
-	switch( Side )
+	const int value = Random::GetRandomInt( 0, 4 );
+	ScreenSide side;
+	switch( value )
 	{
-		case VERTICAL:
-			row = 30, col = 70;
+		case 0:
+			side = ScreenSide::TOP;
 			break;
-		case HORIZONTAL:
-			row = 70, col = 30;
+		case 1:
+			side = ScreenSide::RIGHT;
+			break;
+		case 2:
+			side = ScreenSide::BOTTOM;
+			break;
+		case 3:
+			side = ScreenSide::LEFT;
 			break;
 	}
-	side = Side;
+	return side;
+}
+
+Color Spawner::PickColor() const
+{
+	// Set to Cyan to test if 0 to 5 includes 5, if any Cyan show up, then change to 0,4
+	Color color = Colors::Cyan;
+	switch( Random::GetRandomInt( 0, 5 ) )
+	{
+		case 0:
+			color = Colors::Red;
+			break;
+		case 1:
+			color = Colors::Green;
+			break;
+		case 2:
+			color = Colors::Blue;
+			break;
+		case 3:
+			color = Colors::Magenta;
+			break;
+		case 4:
+			color = Colors::Orange;
+			break;
+	}
+	return color;
+}
+
+void Spawner::Spawn( float Dt )
+{
+	const int difficulty = amalgum.level.GetDifficulty();
+	spawn_rate_tracker += Dt;
+
+	if( spawn_rate_tracker < spawn_rate ) return;
+
+	spawn_rate_tracker = 0.f;
+	switch( difficulty )
+	{
+		case 0:			
+			SpawnEnemyStraight();
+			break;
+		case 1:
+			SpawnEnemyTrackStatic();
+			break;
+		case 2:
+			SpawnEnemyTrackMotion();
+			break;
+		case 3:
+			SpawnEnemyStraight();
+			SpawnEnemyTrackStatic();
+			break;
+		case 4:
+			SpawnEnemyStraight();
+			SpawnEnemyTrackMotion();
+			break;
+		case 5:
+			SpawnEnemyTrackStatic();
+			SpawnEnemyTrackMotion();
+			break;
+		case 6:
+			SpawnEnemyStraight();
+			SpawnEnemyTrackStatic();
+			SpawnEnemyTrackMotion();
+			break;
+		case 7:
+			SpawnEnemyStraight();
+			SpawnEnemyTrackStatic();
+			SpawnEnemyTrackMotion();
+			break;
+		case 8:
+			SpawnEnemyStraight();
+			SpawnEnemyTrackStatic();
+			SpawnEnemyTrackMotion();
+			break;
+		case 9:
+			SpawnEnemyStraight();
+			SpawnEnemyTrackStatic();
+			SpawnEnemyTrackMotion();
+			break;
+	}
 }
 
 void Spawner::SpawnEnemyTrackMotion()
 {
-	// TODO: Use Josh's Random class instead of rand()
-	// Random functions are static so you don't have to create a Random 
-	// object before calling them
-	// Random::GetRandomInt( 0, 100 ) returns a random int from 0 to 99
-	// Random::GetRandomFloat(3.9f, 10.39f) returns a random float from 3.9 to 10.39
-	/* To make a Vector: 
-	Vector randVec(
-		Random::GetRandomFloat( 0.f, 800.f ),
-		-Random::GetRandomFloat( 0.f, 30.f )
-	);
-	*/
-	// TODO: Generate position, speed and color
-	// Don't need to generate direction since the direction will 
-	// be calculated each frame
-	//Vector temp( rand() % ;
-	//EnemyTrackMotion enemy_homing( temp );
-	//amalgum.enemyhoming.push_back( enemy_homing );
+	const ScreenSide side = PickSide();
+	int width = 0, height = 0;
+	Vector position, heading;
+	if( side == TOP || side == BOTTOM )
+	{
+		width = 70;
+		height = 30;
+		position.x = Random::GetRandomFloat( 0.f, static_cast<float>( Graphics::ScreenWidth - width ) );
+		if( side == TOP )
+		{
+			position.y = side == TOP ? 0.f : static_cast< float >( Graphics::ScreenHeight - height );
+		}
+		else
+		{
+			position.y = side == TOP ? 0.f : static_cast< float >( Graphics::ScreenHeight - height );
+		}
+	}
+	else
+	{
+		width = 30;
+		height = 70;
+		if( side == LEFT )
+		{
+			position.x = 0.f;
+		}
+		else
+		{
+			position.x = static_cast< float >( Graphics::ScreenWidth - width );
+		}
+		position.y = Random::GetRandomFloat( 0.f, static_cast< float >( Graphics::ScreenHeight - height ) );
+	}
+	const float speed = 60.f * static_cast<float>( amalgum.level.GetDifficulty() );
+	const float hp = 1.f;
+
+	heading = ( amalgum.ship.position - position ).Normalize();
+	amalgum.enemy_straight_list.push_back(
+		EnemyStraight( position, heading, width, height, speed, hp, .25f, PickColor() ) );
 }
 
 void Spawner::SpawnEnemyTrackStatic()
 {
-	// TODO: Calculate enemy direction, generate position, speed and color
-	// Create a EnemyLastKnownPos object using generated and calculated values
-	// Add to vector in Amalgum
+	const ScreenSide side = PickSide();
+	int width = 0, height = 0;
+	Vector position, heading;
+	if( side == TOP || side == BOTTOM )
+	{
+		width = 70;
+		height = 30;
+		position.x = Random::GetRandomFloat( 0.f, static_cast<float>( Graphics::ScreenWidth - width ) );
+		if( side == TOP )
+		{
+			position.y = side == TOP ? 0.f : static_cast< float >( Graphics::ScreenHeight - height );
+		}
+		else
+		{
+			position.y = side == TOP ? 0.f : static_cast< float >( Graphics::ScreenHeight - height );
+		}
+	}
+	else
+	{
+		width = 30;
+		height = 70;
+		if( side == LEFT )
+		{
+			position.x = 0.f;
+		}
+		else
+		{
+			position.x = static_cast< float >( Graphics::ScreenWidth - width );
+		}
+		position.y = Random::GetRandomFloat( 0.f, static_cast< float >( Graphics::ScreenHeight - height ) );
+	}
+	const float speed = 60.f * static_cast<float>( amalgum.level.GetDifficulty() );
+	const float hp = 1.f;
+
+	heading = ( amalgum.ship.position - position ).Normalize();
+	amalgum.enemy_straight_list.push_back( 
+		EnemyStraight( position, heading, width, height, speed, hp, .25f, PickColor() ) );
 }
 
 void Spawner::SpawnEnemyStraight()
 {
-	// TODO: Generate position, direction, speed and color
+	const ScreenSide side = PickSide();
+	int width = 0, height = 0;
+	Vector position, heading;
+	if( side == TOP || side == BOTTOM )
+	{
+		width = 70;
+		height = 30;
+		position.x = Random::GetRandomFloat( 0.f, static_cast<float>( Graphics::ScreenWidth - width ) );
+		heading.x = 0.f;
+		if( side == TOP )
+		{
+			position.y = side == TOP ? 0.f : static_cast< float >( Graphics::ScreenHeight - height );
+			heading.y = 1.f;
+		}
+		else
+		{
+			position.y = side == TOP ? 0.f : static_cast< float >( Graphics::ScreenHeight - height );
+			heading.y = -1.f;
+		}
+	}
+	else
+	{
+		width = 30;
+		height = 70;
+		if( side == LEFT )
+		{
+			position.x = 0.f;
+			heading.x = -1.f;
+		}
+		else
+		{
+			position.x = static_cast< float >( Graphics::ScreenWidth - width );
+			heading.x = 1.f;
+		}
+		position.y = Random::GetRandomFloat( 0.f, static_cast< float >( Graphics::ScreenHeight - height ) );		
+	}
+	const float speed = 60.f * static_cast<float>( amalgum.level.GetDifficulty() );
+	const float hp = 1.f;
+
+	amalgum.enemy_straight_list.push_back( EnemyStraight( position, heading, width, height, speed, hp, .25f, PickColor() ) );
 }

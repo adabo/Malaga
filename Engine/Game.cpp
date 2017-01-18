@@ -74,6 +74,9 @@ void Game::UpdateModel()
 
 	// Remove dead entities from entity vectors
 	ClearDeadEntities();
+
+	// Spawn new enemies, spawn rate handled by spawner
+	amalgum.spawner.Spawn( frame_time );
 }
 
 void Game::HandleCollisions()
