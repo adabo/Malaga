@@ -1,15 +1,10 @@
 #pragma once
 
-#include "Vector.h"
+#include "Entity.h"
 
-
-class Collision
+struct Collision
 {
-public:
-    Collision();
-
-	virtual bool IsColliding( const Vector &OtherPosition, float Width, float Height )const = 0;
-	virtual void DoCollision( float CollisionCost ) = 0;
-	
+	static bool IsColliding( const Entity &A, const Entity &B );
+	static void DoCollision( Entity &A, Entity &B );	
+	static bool IsInView( const Entity &A );
 };
-

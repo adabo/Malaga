@@ -1,38 +1,44 @@
+#define NOMINMAX
 #include "Shield.h"
 #include <algorithm>
+#include "Graphics.h"
 
-
-Shield::Shield()
+Shield::Shield( float HitPoints, float Radius )
 	:
-	regen_rate(0.f)
-{}
-
-
-Shield::~Shield()
+	hp( HitPoints ),
+	radius( Radius )
 {}
 
 float Shield::GetHP() const
 {
-	return m_hp;
+	return hp;
 }
 
 void Shield::IncreaseHP( float Amount )
 {
-	m_hp = std::min( 1.f, m_hp + Amount );
+	hp = std::min( 1.f, hp + Amount );
 }
 
 void Shield::DecreaseHP( float Amount )
 {
-	m_hp = std::max( 0.f, m_hp - Amount );
-}
-
-void Shield::UpdatePosition( const Vector & NewPosition )
-{
-	m_position = NewPosition;
+	hp = std::max( 0.f, hp - Amount );
 }
 
 void Shield::Update( float Dt )
 {
 	const float recip_full_regen_time = 1.f / regen_max_time;
 	IncreaseHP( Dt * recip_full_regen_time );
+}
+
+void Shield::Draw( const Vector &ShipPosition, Graphics & Gfx )
+{	
+	const unsigned char value_green = static_cast<unsigned char>( 255.f * hp );
+	const unsigned char value_red = 255 - value_green;
+
+	Gfx.DrawCircle(
+		static_cast< int >( ShipPosition.x ),
+		static_cast< int >( ShipPosition.x ),
+		static_cast< int >( radius ),
+		Color( value_red, value_green, 0 )
+	);
 }

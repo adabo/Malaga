@@ -21,9 +21,6 @@ public:
 	// child class destructors don't get called...or at least that's the standard anyway
 	virtual ~Entity() {}
 
-	virtual bool IsColliding( const Vector &OtherPosition, float Width, float Height )const = 0;
-	virtual void DoCollision( float CollisionCost ) = 0;
-
 	virtual void Update( float Dt ) = 0;
 	virtual void Draw( Graphics &Gfx ) = 0;
 

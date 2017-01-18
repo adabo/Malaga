@@ -30,62 +30,7 @@
 
 // Malaga includes
 #include "Amalgum.h"
-#include "Draw.h"
-#include "Size.h"
-#include "Vector.h"
 #include "Wic.h"
-
-
-
-//class MyClass
-//{
-//public:
-//	MyClass &operator+=( const MyClass &Source )
-//	{
-//		f += Source.f;
-//		g += Source.g;
-//
-//		return *this;
-//	}
-//	MyClass operator-( const MyClass &Source )const
-//	{
-//		MyClass temp;
-//		temp.f = this->f - Source.f;
-//		temp.g = this->g - Source.g;
-//		return temp;
-//
-//		// or 
-//
-//		return MyClass{ f - Source.f, g - Source.g };
-//	}
-//	MyClass Add( const MyClass &A, const MyClass &B )
-//	{
-//		MyClass temp = A;
-//		temp.f += B.f;
-//		temp.g += B.g;
-//		return temp;
-//
-//		// or
-//
-//		return MyClass( A ) += B;
-//	}
-//public:
-//	float f, g;
-//};
-//
-//
-//MyClass operator+( const MyClass &A, const MyClass &B )
-//{
-//	MyClass temp = A;
-//	temp.f += B.f;
-//	temp.g += B.g;
-//	return temp;
-//	
-//	// or
-//	MyClass c = A - B;
-//	return MyClass( A ) += B;
-//}
-
 
 class Game
 {
@@ -99,12 +44,6 @@ private:
 	void UpdateModel();
 	/********************************/
 	/*  User Functions              */
-	Vector ClampToScreen( const Vector &Pos, const SizeF &Size );
-	bool IsInView( const Vector &Pos, const SizeF &Size );
-
-	// Temp only, remove after adding Bullet/Projectile class and implementing
-	// std::vector instead of raw arrays
-	void ShiftBulletArrays( unsigned int Idx );
 	/********************************/
 private:
 	MainWindow& wnd;
@@ -119,20 +58,7 @@ private:
 	Wic wic;
 
 	Amalgum amalgum;
-	Draw draw;
-
-	// Temp ship variables
-	Vector ship_pos = { 0.f, 0.f };
-	const SizeF ship_size = { 32.f, 32.f };
-	const float ship_speed = 3.f;
-
-	// Temp bullet variables
-	constexpr static unsigned int max_bullets = 10u;
-	unsigned int bullet_count = 0;
-	Vector bullet_pos[ max_bullets ];
-	Vector bullet_vel[ max_bullets ];
-	const SizeF bullet_size = { 5.f, 5.f };
-	const float bullet_speed = 10.f;
+	
 
 	float frame_time = 0.f;
 	

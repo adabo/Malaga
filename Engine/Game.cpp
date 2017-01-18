@@ -19,6 +19,7 @@
 *    along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
 #include "MainWindow.h"
+#include "Collision.h"
 #include "Game.h"
 #include "Utilities.h"
 
@@ -48,22 +49,22 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	// Helpful vars for checking if ship is on/near edges	
-	//const SizeF bounds = amalgum.screen_size - ship_size - SizeF( 1.f, 1.f );
+	// Update star field background
+	amalgum.stars.Update( frame_time );
 
 	// Clamp the ship to the edges
-	ship_pos = ClampToScreen( ship_pos, ship_size );	
+	amalgum.ship.ClampToScreenEdges();
 
 	// Update bullet movement
-	for( unsigned int i = 0; i < bullet_count; ++i )
+	for( unsigned int i = 0; i < amalgum.projectile_list.size(); ++i )
 	{
 		// Update bullet positions
-		bullet_pos[ i ] = bullet_pos[ i ] + ( bullet_vel[ i ] * bullet_speed );
+		amalgum.projectile_list[ i ].Update( frame_time );
 
 		// Check if bullet off screen
-		if( !IsInView( bullet_pos[ i ], bullet_size ) )
+		if( !Collision::IsInView( amalgum.projectile_list[i] ) )
 		{
-			ShiftBulletArrays( i );
+			amalgum.projectile_list[ i ].is_alive = false;
 		}
 	}
 	
@@ -145,41 +146,7 @@ void Game::UpdateModel()
 	}*/
 }
 
-Vector Game::ClampToScreen( const Vector & Pos, const SizeF & Size )
-{
-	return Vector(
-		std::max( 0.f, std::min( Pos.x, amalgum.screen_size.width - Size.width ) ),
-		std::max( 0.f, std::min( Pos.y, amalgum.screen_size.height - Size.height ) )
-	);
-}
-
-bool Game::IsInView( const Vector & Pos, const SizeF & Size )
-{
-	return (
-		( Pos.x + Size.width >= 0.f && Pos.x <  amalgum.screen_size.width ) &&
-		( Pos.y + Size.height >= 0.f && Pos.y < amalgum.screen_size.height ) );
-}
-
-void Game::ShiftBulletArrays(unsigned int Idx)
-{
-	for( unsigned int j = Idx + 1; j < bullet_count; ++j )
-	{
-		const int k = j - 1;
-		std::swap( bullet_pos[ j ], bullet_pos[ k ] );
-		std::swap( bullet_vel[ j ], bullet_vel[ k ] );
-	}
-	--bullet_count;
-}
-
 void Game::ComposeFrame()
 {	
-	{ // Draw bullets
-		for( unsigned int i = 0; i < bullet_count; ++i )
-		{
-			const int x = ( int )bullet_pos[ i ].x;
-			const int y = ( int )bullet_pos[ i ].y;
-			const int w = ( int )bullet_size.width;
-			gfx.DrawRect( x, y, w, w, Colors::Cyan );
-		}
-	}
+	amalgum.view.Render( gfx );
 }
