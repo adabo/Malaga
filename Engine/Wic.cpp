@@ -1,7 +1,5 @@
 #include "Wic.h"
 
-
-
 Wic::Wic()
 {
 	HRESULT hr = S_OK;
@@ -12,10 +10,7 @@ Wic::Wic()
 		IID_PPV_ARGS( &m_pFactory )
 	);
 	if( FAILED( hr ) ) throw( hr );
-
-	
 }
-
 
 Wic::~Wic()
 {}

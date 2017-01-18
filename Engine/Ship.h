@@ -5,14 +5,11 @@
 class Ship : public Entity
 {
 public:
-	Ship( Vector Pos, bool IsColliding = false );
+	Ship( const Vector &Pos, const Vector &Heading, int Width = 0,
+		  int Height = 0, float Speed = 30.f, float HP = 1.f, float Damage = .1f );
 
-	void Draw();
-	void Update();
-
-	bool IsColliding( const Vector &OtherPosition, float Width, float Height )override;
-	bool DoCollision( float CollisionCost )override;
-	void DoInput();
+	void Update( float Dt ) override;
+	void Draw( Graphics &Gfx ) override;
 	void ClampToScreenEdges();
 
 public:

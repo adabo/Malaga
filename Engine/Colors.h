@@ -93,11 +93,11 @@ public:
 	}
 };
 
-bool operator==( Color A, Color B )
+inline bool operator==( Color A, Color B )
 {
 	return A.dword == B.dword;
 }
-bool operator!=( Color A, Color B )
+inline bool operator!=( Color A, Color B )
 {
 	return !( A == B );
 }

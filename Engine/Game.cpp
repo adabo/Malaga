@@ -19,27 +19,21 @@
 *    along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
 ******************************************************************************************/
 #include "MainWindow.h"
+#include "Collision.h"
 #include "Game.h"
+#include "Reaper.h"
 #include "Utilities.h"
+
 
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	amalgum( wnd.kbd ),
-	draw( amalgum )
-{
-	for( int i = 0; i < max_bullets; ++i )
-	{
-		bullet_pos[ i ] = { 0.f, 0.f };
-		bullet_vel[ i ] = { 0.f, 0.f };
-	}
-}
+	amalgum( wnd.kbd, wnd.mouse )
+{}
 
 void Game::Go()
 {
-	frame_time = amalgum.timer.Reset();
-
 	UpdateModel();
 	gfx.BeginFrame();
 	ComposeFrame();
@@ -48,138 +42,112 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	// Helpful vars for checking if ship is on/near edges	
-	//const SizeF bounds = amalgum.screen_size - ship_size - SizeF( 1.f, 1.f );
+#if !defined(_DEBUG)
+	const float frame_time = amalgum.timer.Reset();
+#else
+	const float frame_time = 1.f / 60.f;
+#endif
+	// Update star field background
+	amalgum.stars.Update( frame_time );
 
 	// Clamp the ship to the edges
-	ship_pos = ClampToScreen( ship_pos, ship_size );	
-
+	amalgum.ship.ClampToScreenEdges();
+	
 	// Update bullet movement
-	for( unsigned int i = 0; i < bullet_count; ++i )
+	for( unsigned int i = 0; i < amalgum.projectile_list.size(); ++i )
 	{
 		// Update bullet positions
-		bullet_pos[ i ] = bullet_pos[ i ] + ( bullet_vel[ i ] * bullet_speed );
-
-		// Check if bullet off screen
-		if( !IsInView( bullet_pos[ i ], bullet_size ) )
-		{
-			ShiftBulletArrays( i );
-		}
+		amalgum.projectile_list[ i ].Update( frame_time );
 	}
 	
-	// Update ship movement
+	// Handle user input
 	amalgum.player.Update( frame_time );
-	// Move clockwise
-	/*if( wnd.kbd.KeyIsPressed( VK_LEFT ) || wnd.kbd.KeyIsPressed( 'A' ) )
-	{
-		if( ship_pos.y <= 0.f && ship_pos.x < bounds.width )
-		{
-			ship_pos.x += ship_speed;
-		}
-		else if( ship_pos.y >= bounds.height && ship_pos.x > 0.f )
-		{
-			ship_pos.x -= ship_speed;
-		}
-		else
-		{
-			if( ship_pos.x <= 0.f && ship_pos.y > 0.f )
-			{
-				ship_pos.y -= ship_speed;
-			}
-			else if( ship_pos.x >= bounds.width && ship_pos.y < bounds.height )
-			{
-				ship_pos.y += ship_speed;
-			}
-		}
-	}*/
 
-	// Move counter clockwise
-	/*if( wnd.kbd.KeyIsPressed( VK_RIGHT ) || wnd.kbd.KeyIsPressed( 'D' ) )
-	{
-		if( ship_pos.y <= 0.f && ship_pos.x > 0.f )
-		{
-			ship_pos.x -= ship_speed;
-		}
-		else if( ship_pos.y >= bounds.height && ship_pos.x < bounds.width )
-		{
-			ship_pos.x += ship_speed;
-		}
-		else
-		{
-			if( ship_pos.x <= 0.f && ship_pos.y < bounds.height )
-			{
-				ship_pos.y += ship_speed;
-			}
-			else if( ship_pos.x >= bounds.width && ship_pos.y > 0.f )
-			{
-				ship_pos.y -= ship_speed;
-			}
-		}
-	}*/
+	// Update ship movement
+	amalgum.ship.Update( frame_time );
 
-	// Fire bullet
-	/*if( wnd.kbd.KeyIsPressed( VK_SPACE ) )
-	{
-		if( fire_rate_tracker >= fire_rate )
-		{
-			if( bullet_count < max_bullets )
-			{
-				// Reset fire rate tracker
-				fire_rate_tracker = 0.f;
+	// Update fire rate tracker or bullet spawn timer
+	amalgum.weapon.Update( frame_time );
 
-				// Helpful var to determine ships center for bullet spawning
-				const SizeF ship_half_size = ship_size * .5f;
+	// Check for and handle collisions
+	HandleCollisions();
 
-				// Set bullet to ship center
-				const Vector ship_center = ( ship_pos + ship_half_size );
-				bullet_pos[ bullet_count ] = ship_center;
-
-				// Determine travel direction of bullet
-				const auto half_screen = screen_size * .5f;
-				bullet_vel[ bullet_count ] = ( half_screen - ship_center ).GetNormal();
-
-				// Increase bullet count
-				++bullet_count;
-			}
-		}
-	}*/
+	// Remove dead entities from entity vectors
+	ClearDeadEntities();
 }
 
-Vector Game::ClampToScreen( const Vector & Pos, const SizeF & Size )
+void Game::HandleCollisions()
 {
-	return Vector(
-		std::max( 0.f, std::min( Pos.x, amalgum.screen_size.width - Size.width ) ),
-		std::max( 0.f, std::min( Pos.y, amalgum.screen_size.height - Size.height ) )
-	);
-}
-
-bool Game::IsInView( const Vector & Pos, const SizeF & Size )
-{
-	return (
-		( Pos.x + Size.width >= 0.f && Pos.x <  amalgum.screen_size.width ) &&
-		( Pos.y + Size.height >= 0.f && Pos.y < amalgum.screen_size.height ) );
-}
-
-void Game::ShiftBulletArrays(unsigned int Idx)
-{
-	for( unsigned int j = Idx + 1; j < bullet_count; ++j )
+	for( Projectile &proj : amalgum.projectile_list )
 	{
-		const int k = j - 1;
-		std::swap( bullet_pos[ j ], bullet_pos[ k ] );
-		std::swap( bullet_vel[ j ], bullet_vel[ k ] );
+		// Check is alive and if bullet off screen 
+		proj.is_alive = proj.is_alive && Collision::IsInView( proj );
+
+		for( auto& enemy : amalgum.enemy_homing_list )
+		{
+			Collision::DoCollision( proj, enemy );
+		}
+		for( auto& enemy : amalgum.enemy_last_known_list )
+		{
+			Collision::DoCollision( proj, enemy );
+		}
+		for( auto& enemy : amalgum.enemy_straight_list )
+		{
+			Collision::DoCollision( proj, enemy );
+		}
 	}
-	--bullet_count;
+
+	for( auto &enemy : amalgum.enemy_homing_list )
+	{
+		// If enemy is heading in a direction and is offscreen on the side
+		// they were heading, then they need to die.
+		//
+		// For instance, enemy started on right side of screen and heading left.
+		// If they are off screen on the right but heading left, then they can
+		// still live, but if they are heading left and are off screen on the 
+		// left, then they die.
+		const bool enemy_offscreen = !Collision::IsInView( enemy );
+		enemy.is_alive = (
+			( ( enemy.velocity.x > 0.f ) && enemy_offscreen ) ||
+			( ( enemy.velocity.x < 0.f ) && enemy_offscreen ) ||
+			( ( enemy.velocity.y > 0.f ) && enemy_offscreen ) ||
+			( ( enemy.velocity.y < 0.f ) && enemy_offscreen ) );
+
+		Collision::DoCollision( amalgum.ship, enemy );
+	}
+	for( auto &enemy : amalgum.enemy_last_known_list )
+	{
+		const bool enemy_offscreen = !Collision::IsInView( enemy );
+		enemy.is_alive = (
+			( ( enemy.velocity.x > 0.f ) && enemy_offscreen ) ||
+			( ( enemy.velocity.x < 0.f ) && enemy_offscreen ) ||
+			( ( enemy.velocity.y > 0.f ) && enemy_offscreen ) ||
+			( ( enemy.velocity.y < 0.f ) && enemy_offscreen ) );
+
+		Collision::DoCollision( amalgum.ship, enemy );
+	}
+	for( auto &enemy : amalgum.enemy_straight_list )
+	{
+		const bool enemy_offscreen = !Collision::IsInView( enemy );
+		enemy.is_alive = (
+			( ( enemy.velocity.x > 0.f ) && enemy_offscreen ) ||
+			( ( enemy.velocity.x < 0.f ) && enemy_offscreen ) ||
+			( ( enemy.velocity.y > 0.f ) && enemy_offscreen ) ||
+			( ( enemy.velocity.y < 0.f ) && enemy_offscreen ) );
+
+		Collision::DoCollision( amalgum.ship, enemy );
+	}
+}
+
+void Game::ClearDeadEntities()
+{
+	Reaper::ClaimDead( amalgum.projectile_list );
+	Reaper::ClaimDead( amalgum.enemy_homing_list );
+	Reaper::ClaimDead( amalgum.enemy_last_known_list );
+	Reaper::ClaimDead( amalgum.enemy_straight_list );
 }
 
 void Game::ComposeFrame()
 {	
-	{ // Draw bullets
-		for( unsigned int i = 0; i < bullet_count; ++i )
-		{
-			const int x = ( int )bullet_pos[ i ].x;
-			const int y = ( int )bullet_pos[ i ].y;
-			const int w = ( int )bullet_size.width;
-			gfx.DrawRect( x, y, w, w, Colors::Cyan );
-		}
-	}
+	amalgum.view.Render( gfx );
 }

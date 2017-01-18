@@ -2,14 +2,7 @@
 #include "Graphics.h"
 #include <sstream>
 
-//Text::Color Text::dc = GREY;
-Color Text::fixedSys_surf[ 512 * 84 ];
-Color Text::edges_surf[ 160 * 29 ];
-Font Text::fixedSys;
-Font Text::edges;
-// Font Text::font;
-
-Text::Text( const std::string &Str, int X, int Y, WhichFont Type, Color DefaultColor, Color MouseOverColor )
+Text::Text( const std::string &Str, int X, int Y, WhichFont Type, Color DefaultColor, Color MouseOverColor, const Wic &rWic )
 	:
 	str( Str ),
 	x( X ),
@@ -17,21 +10,23 @@ Text::Text( const std::string &Str, int X, int Y, WhichFont Type, Color DefaultC
 	type( Type ),
 	mouse_over_color( MouseOverColor ),
 	default_color( DefaultColor ),
-	left_is_pressed( false )
+	left_is_pressed( false ),
+	fixedSys( L"Fixedsys16x28.bmp", 16, 28, 32, rWic ),
+	edges( L"Edges_5x9x32.bmp", 5, 9, 32, rWic )
 {
 	// Set font
 	switch( type )
 	{
 		case FIXEDSYS:
 		{
-			fixedSys.LoadFont( &fixedSys, fixedSys_surf, "Fixedsys16x28.bmp", 16, 28, 32 );
+			;
 			// Assign reference to 'font' so that you can use it for the rest of the program
 			font = &fixedSys;
 		}
 		break;
 		case EDGES:
 		{
-			edges.LoadFont( &edges, edges_surf, "Edges_5x9x32.bmp", 5, 9, 32 );
+			;
 			font = &edges;
 		}
 		break;
@@ -84,11 +79,11 @@ void Text::Draw( Graphics &Gfx )
 	// int string_width = sprintf(buffer, "HP: %.2f", ThisPlayer.hp);
 	// string_width = string_width * fixedSys.char_width;
 
-	font->DrawString( str.c_str(), x, y, font, active_color, Gfx );
+	font->DrawString( str.c_str(), x, y, active_color, Gfx );
 }
 
 void Text::SetIToA( int IStr )
-{
+{	
 	std::stringstream ss;
 	ss << IStr;	
 	str = ss.str();

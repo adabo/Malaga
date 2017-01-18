@@ -2,7 +2,7 @@
 
 #include <wincodec.h>
 #include <wrl.h>
-#pragma comment(lib, "windowscodec.lib")
+#pragma comment(lib, "windowscodecs.lib")
 
 class Wic
 {

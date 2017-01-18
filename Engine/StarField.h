@@ -18,8 +18,7 @@ public:
 	void Update( float Dt );
 	void Draw( class Graphics &Gfx )const;
 private:
-	static constexpr unsigned m_star_count = 2500;
+	static constexpr unsigned m_star_count = 1250;
 	std::vector<Star> m_stars;
-	std::mt19937 rng;
 };
 
