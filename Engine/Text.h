@@ -13,7 +13,8 @@ class TextFormat
 public:
 	enum WhichFont
 	{
-		FIXEDSYS, EDGES
+		FIXEDSYS, EDGES,
+		FIXEDSYS_SMALL
 	};
 
 	TextFormat( WhichFont Type, Color C );
@@ -24,6 +25,7 @@ public:
 	WhichFont type;
 	Color color;
 	static Font fixedSys;
+	static Font fixedSys_small;
 	static Font edges;
 	Font *font;
 };

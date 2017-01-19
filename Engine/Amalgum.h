@@ -1,5 +1,6 @@
 #pragma once
 
+#define FULL_WINTARD
 #include <vector>
 #include "EnemyStraight.h"
 #include "EnemyTrackStatic.h"

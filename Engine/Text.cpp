@@ -5,6 +5,7 @@
 
 
 Font TextFormat::fixedSys( L"Assets/Fixedsys16x28.bmp", 16, 28, 32 );
+Font TextFormat::fixedSys_small( L"Assets/Fixedsys8x14.bmp", 8, 14, 32 );
 Font TextFormat::edges( L"Assets/Edges_5x9x32.bmp", 5, 9, 32 );
 
 /*******************************************************   TextFormat Class ***************************************/
@@ -12,7 +13,7 @@ TextFormat::TextFormat( WhichFont Type, Color C )
 	:
 	type( Type ),
 	color( C ),
-	font( ( type == FIXEDSYS ) ? &fixedSys : &edges )
+	font( ( type == FIXEDSYS ) ? &fixedSys : ( type == EDGES ) ? &edges : &fixedSys_small )
 {
 }
 
