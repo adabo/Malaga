@@ -38,7 +38,7 @@ void View::Render( Graphics & Gfx )
 		enemy.Draw( Gfx );
 	}
 
-	const TextFormat format( TextFormat::WhichFont::FIXEDSYS, Colors::Green );
+	const TextFormat format( TextFormat::WhichFont::FIXEDSYS_SMALL, Colors::Green );
 	// Display the current level
 	Gfx.DrawText( 0, 100, Text( amalgum.text_level ).Append( amalgum.level.GetDifficulty() ), format );
 	
