@@ -9,5 +9,6 @@ Entity::Entity( const Vector &Pos, const Vector &Heading, int Width, int Height,
 	velocity( Heading ),
 	width( Width ),
 	height( Height ),
-	speed( Speed )
+	speed( Speed ),
+	damage( Damage )
 {}

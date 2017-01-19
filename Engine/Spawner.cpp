@@ -201,5 +201,6 @@ Spawner::EnemyConstructorParams Spawner::CreateBaseParams() const
 	params.speed = 60.f * static_cast<float>( amalgum.level.GetDifficulty() + 1 );
 	params.hp = 1.f;
 	params.color = PickColor();
+	params.damage = .25f;
 	return params;
 }

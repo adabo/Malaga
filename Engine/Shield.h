@@ -2,25 +2,24 @@
 
 #include "Vector.h"
 
+class Amalgum;
 class Graphics;
 
 class Shield
 {
 public:
-	Shield( float HitPoints, float Radius );
+	Shield( float HitPoints );
 	float GetHP()const;
 
 	void IncreaseHP( float Amount );
 	void DecreaseHP( float Amount );
 	
-	void Update( float Dt );	
+	void Update( float Dt, Amalgum &rAmalgum );
 	void Draw( const Vector &ShipPsition, Graphics &Gfx );
 
-private:
-
-	// Full shields in 5 seconds
-	static constexpr float regen_max_time = 5.f;
+public:
+	// Full shields in 30 seconds from 0.01
+	static constexpr float regen_max_time = 30.f;
 	float hp;
-	float radius = 50.f;
 };
 
