@@ -37,19 +37,23 @@ Color Spawner::PickColor() const
 	switch( Random::GetRandomIntInRange( 0, 5 ) )
 	{
 		case 0:
-			color = Colors::Red;
+			// color = Colors::Red;
+			color = Colors::EnemyBrown;
 			break;
 		case 1:
 			color = Colors::Green;
 			break;
 		case 2:
-			color = Colors::Blue;
+			// color = Colors::Blue;
+			color = Colors::EnemyPink;
 			break;
 		case 3:
-			color = Colors::Magenta;
+			// color = Colors::Magenta;
+			color = Colors::EnemyGrey;
 			break;
 		case 4:
-			color = Colors::Orange;
+			// color = Colors::Orange;
+			color = Colors::EnemyOrange;
 			break;
 	}
 	return color;

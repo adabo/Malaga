@@ -119,4 +119,12 @@ namespace Colors
 	static constexpr Color Cyan = MakeRGB( 0u,255u,255u );
 	static constexpr Color Magenta = MakeRGB( 255u,0u,255u );
 	static constexpr Color Orange = MakeRGB( 255u, 127u, 63u );
+	/**************** Malaga Colors ***********************************/
+	static constexpr Color ShipTealDark = MakeRGB( 0u, 102u, 102u );
+	static constexpr Color ShieldTealLight = MakeRGB( 0u, 255u, 255u );
+	static constexpr Color EnemyBrown = MakeRGB( 102u, 0u, 0u );
+	static constexpr Color EnemyOrange = MakeRGB( 222u, 71u, 0u );
+	static constexpr Color EnemyPink = MakeRGB( 184u, 0u, 222u );
+	static constexpr Color EnemyGrey = MakeRGB( 182u, 182u, 182u );
+	/**************** Malaga Colors ***********************************/
 }
