@@ -1,12 +1,12 @@
 #define NOMINMAX
 #include "Shield.h"
 #include <algorithm>
+#include "Amalgum.h"
 #include "Graphics.h"
 
-Shield::Shield( float HitPoints, float Radius )
+Shield::Shield( float HitPoints )
 	:
-	hp( HitPoints ),
-	radius( Radius )
+	hp( HitPoints )
 {}
 
 float Shield::GetHP() const
@@ -24,10 +24,11 @@ void Shield::DecreaseHP( float Amount )
 	hp = std::max( 0.f, hp - Amount );
 }
 
-void Shield::Update( float Dt )
+void Shield::Update( float Dt, Amalgum &rAmalgum )
 {
-	const float recip_full_regen_time = 1.f / regen_max_time;
-	IncreaseHP( Dt * recip_full_regen_time );
+	hp = rAmalgum.ship.hp;
+	IncreaseHP( Dt * ( 1.f / regen_max_time ) );
+	rAmalgum.ship.hp = hp;
 }
 
 void Shield::Draw( const Vector &ShipPosition, Graphics & Gfx )

@@ -65,6 +65,9 @@ void Game::UpdateModel()
 
 	// Update ship movement
 	amalgum.ship.Update( frame_time );
+	
+	// Update shield regen value
+	amalgum.shield.Update( frame_time, amalgum );
 
 	// Update fire rate tracker or bullet spawn timer
 	amalgum.weapon.Update( frame_time );
@@ -151,7 +154,7 @@ void Game::HandleCollisions()
 	for( auto &enemy : amalgum.enemy_straight_list )
 	{
 		const bool enemy_in_view = Collision::IsInView( enemy );
-		enemy.is_alive = (
+		enemy.is_alive = enemy.is_alive && ( 
 			( ( enemy.velocity.x > 0.f ) && enemy_in_view ) ||
 			( ( enemy.velocity.x < 0.f ) && enemy_in_view ) ||
 			( ( enemy.velocity.y > 0.f ) && enemy_in_view ) ||
