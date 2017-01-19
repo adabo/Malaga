@@ -11,7 +11,7 @@ class Spawner
 	{
 		Vector pos, heading;
 		float hp, speed, damage;
-		float width, height;
+		int width, height;
 		Color color;
 	};
 public:

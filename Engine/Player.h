@@ -1,6 +1,6 @@
 #pragma once
 
-class Amalgum;
+struct Amalgum;
 class Keyboard;
 class Mouse;
 class Ship;

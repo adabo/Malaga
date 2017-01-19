@@ -2,7 +2,7 @@
 
 #include "Vector.h"
 
-class Amalgum;
+struct Amalgum;
 class Graphics;
 
 class Shield

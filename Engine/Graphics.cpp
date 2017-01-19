@@ -367,7 +367,7 @@ void Graphics::DrawCircle( int Cx, int Cy, int Radius, Color C )
 
 	for( int x = 0; x <= x_pivot; x++ )
 	{
-		int y = ( int )( sqrtf( ( radius_squared - ( x*x ) ) ) + 0.5f );
+		int y = static_cast<int>( sqrtf( static_cast<float>( radius_squared - ( x*x ) ) ) + 0.5f );
 		DrawQuadrant( x, y );
 		DrawQuadrant( y, x );
 	}

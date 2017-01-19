@@ -1,3 +1,7 @@
+#ifndef FULL_WINTARD
+#define FULL_WINTARD
+#endif // !FULL_WINTAR
+
 #include "View.h"
 #include "Amalgum.h"
 
@@ -39,12 +43,17 @@ void View::Render( Graphics & Gfx )
 	}
 
 	const TextFormat format( TextFormat::WhichFont::FIXEDSYS_SMALL, Colors::Green );
+
+	const int base_y = 100;
+	const int row_padding = 3;
 	// Display the current level
-	Gfx.DrawText( 0, 100, Text( amalgum.text_level ).Append( amalgum.level.GetDifficulty() ), format );
+	Gfx.DrawText( 0, base_y, Text( amalgum.text_level ).Append( amalgum.level.GetDifficulty() ), format );
 	
 	// Display the current shield percentage
-	Gfx.DrawText( 0, 130, Text( amalgum.text_shield ).Append( amalgum.shield.hp * 100.f ).Append( Text( "%" ) ), format );
+	const int second_row = base_y + format.font->char_height + row_padding;
+	Gfx.DrawText( 0, second_row, Text( amalgum.text_shield ).Append( amalgum.shield.hp * 100.f ).Append( Text( "%" ) ), format );
 
 	// Display the player's score
-	Gfx.DrawText( 0, 160, Text( amalgum.text_score ).Append(0), format );
+	const int third_row = second_row + format.font->char_height + row_padding;
+	Gfx.DrawText( 0, third_row, Text( amalgum.text_score ).Append(0), format );
 }

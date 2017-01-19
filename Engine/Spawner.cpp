@@ -170,8 +170,8 @@ Spawner::EnemyConstructorParams Spawner::CreateBaseParams() const
 	
 	if( side == TOP || side == BOTTOM )
 	{
-		params.width = 70.f;
-		params.height = 30.f;
+		params.width = 70;
+		params.height = 30;
 		params.pos.x = Random::GetRandomFloat( 0.f, static_cast<float>( Graphics::ScreenWidth - params.width ) );
 		params.heading.x = 0.f;
 		if( side == TOP )

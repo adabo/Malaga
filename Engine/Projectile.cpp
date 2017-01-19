@@ -16,5 +16,10 @@ void Projectile::Update( float Dt )
 void Projectile::Draw( Graphics & Gfx )
 {
 	const Vector previous_position = position - (velocity.Normalize() * 10.f);
-	Gfx.DrawLine( previous_position.x, previous_position.y, position.x, position.y, Colors::Red );
+	Gfx.DrawLine( 
+		static_cast<int>(previous_position.x), 
+		static_cast<int>(previous_position.y), 
+		static_cast<int>(position.x), 
+		static_cast<int>(position.y), 
+		Colors::Red );
 }

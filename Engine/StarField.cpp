@@ -34,8 +34,8 @@ void StarField::Draw( Graphics & Gfx )const
 {
 	for( auto &star : stars )
 	{
-		const int x = max( 0, min( Graphics::ScreenWidth - 1, static_cast< int >( star.pos.x ) ) );
-		const int y = max( 0, min( Graphics::ScreenHeight - 1, static_cast< int >( star.pos.y ) ) );
+		const int x = std::max( 0, std::min( Graphics::ScreenWidth - 1, static_cast< int >( star.pos.x ) ) );
+		const int y = std::max( 0, std::min( Graphics::ScreenHeight - 1, static_cast< int >( star.pos.y ) ) );
 		Gfx.PutPixel( x, y, Colors::White );
 	}
 }
