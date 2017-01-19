@@ -11,7 +11,7 @@ class Font
 {
 public:
     Font(const std::wstring &Filename, int CharWidth, int CharHeight,
-		  int CharsPerRow, const Wic &rWic);
+		  int CharsPerRow );
     
 	void DrawChar( char c, int x, int y, Color color, Graphics &Gfx );
 	void DrawString( const std::string &buffer, int x, int y, Color color, Graphics &Gfx );

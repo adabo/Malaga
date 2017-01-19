@@ -1,120 +1,77 @@
 #include "Text.h"
 #include "Graphics.h"
+#include <iomanip>
 #include <sstream>
 
-Text::Text( const std::string &Str, int X, int Y, WhichFont Type, Color DefaultColor, Color MouseOverColor, const Wic &rWic )
+
+Font TextFormat::fixedSys( L"Assets/Fixedsys16x28.bmp", 16, 28, 32 );
+Font TextFormat::edges( L"Assets/Edges_5x9x32.bmp", 5, 9, 32 );
+
+/*******************************************************   TextFormat Class ***************************************/
+TextFormat::TextFormat( WhichFont Type, Color C )
 	:
-	str( Str ),
-	x( X ),
-	y( Y ),
 	type( Type ),
-	mouse_over_color( MouseOverColor ),
-	default_color( DefaultColor ),
-	left_is_pressed( false ),
-	fixedSys( L"Fixedsys16x28.bmp", 16, 28, 32, rWic ),
-	edges( L"Edges_5x9x32.bmp", 5, 9, 32, rWic )
+	color( C ),
+	font( ( type == FIXEDSYS ) ? &fixedSys : &edges )
 {
-	// Set font
-	switch( type )
-	{
-		case FIXEDSYS:
-		{
-			;
-			// Assign reference to 'font' so that you can use it for the rest of the program
-			font = &fixedSys;
-		}
-		break;
-		case EDGES:
-		{
-			;
-			font = &edges;
-		}
-		break;
-	}
-
-	SetBuff();
-	// Set default color
-	SetColor( default_color );
 }
 
-bool Text::Update( Mouse& Mouse )
+void TextFormat::SetColor( Color C )
 {
-	int mx = Mouse.GetPosX();
-	int my = Mouse.GetPosY();
-	
-	SetColor( default_color );
-	if( Mouse.IsInWindow() )
-	{
-		if( MouseHoverOver( mx, my, x, y, w, h ) )
-		{
-			SetColor( mouse_over_color );
-			if( Mouse.LeftIsPressed() )
-			{
-				if( !left_is_pressed )
-				{
-					left_is_pressed = true;
-				}
-			}
-			else
-			{
-				if( left_is_pressed )
-				{
-					// For some reason, if you don't set the color back to
-					// default here, then it will flash it's old color when
-					// switch back to that screen. "<=" is a different object
-					// on every shop_screen. So you have to account for that
-					// when you are assigning colors.
-					SetColor( default_color );
-					left_is_pressed = false;
-					return true;
-				}
-			}
-		}
-	}
-	return false;
+	color = C;
 }
 
-void Text::Draw( Graphics &Gfx )
+Color TextFormat::GetColor()const
 {
-	// int string_width = sprintf(buffer, "HP: %.2f", ThisPlayer.hp);
-	// string_width = string_width * fixedSys.char_width;
-
-	font->DrawString( str.c_str(), x, y, active_color, Gfx );
+	return color;
 }
 
-void Text::SetIToA( int IStr )
-{	
-	std::stringstream ss;
-	ss << IStr;	
-	str = ss.str();
-	SetBuff();
-}
 
-void Text::SetFToA( float FStr )
+/*******************************************************   Text Class ***************************************/
+Text::Text( int Value )
 {
 	std::stringstream ss;
-	ss.precision( 2 );
-	ss << FStr;
+	ss << Value;
 	str = ss.str();
-	SetBuff();
 }
 
-bool Text::MouseHoverOver( int MX, int MY, int X, int Y, int W, int H )const
+Text::Text( float Value )
 {
-	return (
-		MX >= X && MX <= X + W &&
-		MY >= Y && MY <= Y + H
-		);
+	std::stringstream ss;	
+	ss << std::setprecision( 2 ) << std::fixed << Value;
+	*this = Text( ss.str() );
 }
 
-void Text::SetColor( Color C )
+Text::Text( const std::string & String )
+	:
+	str( String )
+{}
+
+Text::Text( std::string && String )
+	:
+	str( std::move( String ) )
+{}
+
+Text::Text( const Text & Src )
+	:
+	Text( Src.str )
+{}
+
+Text::Text( Text && Src )
+	:
+	Text( std::move( Src.str ) )
+{}
+
+Text & Text::operator=( const Text & Src )
 {
-	active_color = C;
+	*this = Text( Src );
+	return *this;
 }
 
-Color Text::GetColor()const
+Text & Text::operator=( Text && Src )
 {
-	return active_color;
+	str = std::move( Src.str );
+	return *this;
 }
 
 const std::string &Text::GetStr()const
@@ -122,29 +79,14 @@ const std::string &Text::GetStr()const
 	return str;
 }
 
-void Text::SetStr( const std::string &Str )
+Text & Text::Append( const Text & Src )
 {
-	str = Str;
+	str.append( Src.str );
+	return *this;
 }
 
-void Text::SetBuff()
+Text Text::Append( const Text & Src ) const
 {
-	w = str.length() * font->char_width;
-	h = font->char_height;
+	return Text( *this ).Append( Src );
 }
 
-void Text::SetXY( int X, int Y )
-{
-	SetX( X );
-	SetY( Y );
-}
-
-void Text::SetX( int X )
-{
-	x = X;
-}
-
-void Text::SetY( int Y )
-{
-	y = Y;
-}

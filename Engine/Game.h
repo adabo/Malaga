@@ -30,7 +30,6 @@
 
 // Malaga includes
 #include "Amalgum.h"
-#include "Wic.h"
 
 class Game
 {
@@ -51,14 +50,6 @@ private:
 private:
 	MainWindow& wnd;
 	Graphics gfx;
-
-	// WIC stands for (Windows Imaging Component) it's the new
-	// API for loading images after GDI+
-	//
-	// I'm also going to try using C++ exceptions for this project,
-	// make it a learning experience for me as well, so it doesn't
-	// get stale.
-	Wic wic;
 
 	Amalgum amalgum;
 	

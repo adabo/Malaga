@@ -37,4 +37,14 @@ void View::Render( Graphics & Gfx )
 	{
 		enemy.Draw( Gfx );
 	}
+
+	const TextFormat format( TextFormat::WhichFont::FIXEDSYS, Colors::Green );
+	// Display the current level
+	Gfx.DrawText( 0, 100, Text( amalgum.text_level ).Append( amalgum.level.GetDifficulty() ), format );
+	
+	// Display the current shield percentage
+	Gfx.DrawText( 0, 130, Text( amalgum.text_shield ).Append( amalgum.shield.hp * 100.f ).Append( Text( "%" ) ), format );
+
+	// Display the player's score
+	Gfx.DrawText( 0, 160, Text( amalgum.text_score ).Append(0), format );
 }

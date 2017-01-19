@@ -7,7 +7,7 @@
 class Image
 {
 public:
-	Image( const std::wstring &Filename, const Wic &crWic );
+	Image( const std::wstring &Filename);
 
 	unsigned char *GetBits()const;
 	unsigned int GetWidth()const;

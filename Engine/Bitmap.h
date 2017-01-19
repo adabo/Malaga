@@ -7,6 +7,6 @@ class Color;
 class Bitmap : public Image
 {
 public:
-	Bitmap( const std::wstring &Filename, const Wic &crWic);
+	Bitmap( const std::wstring &Filename );
 	Color GetPixel( int X, int Y )const;
 };

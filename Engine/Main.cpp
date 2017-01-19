@@ -49,6 +49,7 @@ int WINAPI wWinMain( HINSTANCE hInst,HINSTANCE,LPWSTR pArgs,INT )
 			{
 				theGame.Go();
 			}
+			CoUninitialize();
 		}
 		catch( const ChiliException& e )
 		{

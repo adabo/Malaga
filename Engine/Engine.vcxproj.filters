@@ -141,17 +141,17 @@
     <ClInclude Include="Weapon.h">
       <Filter>Header Files\Abel Files</Filter>
     </ClInclude>
-    <ClInclude Include="Projectile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="View.h">
       <Filter>Header Files\Josh Files</Filter>
     </ClInclude>
-    <ClInclude Include="Reaper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="UpgradeController.h">
       <Filter>Header Files\Abel Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Reaper.h">
+      <Filter>Header Files\Josh Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Header Files\Josh Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -249,9 +249,6 @@
       <Filter>Source Files\Abel Files</Filter>
     </ClCompile>
     <ClCompile Include="Projectile.cpp">
-      <Filter>Source Files\Josh Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Reaper.cpp">
       <Filter>Source Files\Josh Files</Filter>
     </ClCompile>
   </ItemGroup>

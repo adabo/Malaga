@@ -78,17 +78,35 @@ void Player::Update( float Dt )
 	{
 		if( amalgum.weapon.CanFire() )
 		{
-			if( amalgum.projectile_list.size() < amalgum.max_bullets )
-			{
+			/*if( amalgum.projectile_list.size() < amalgum.max_bullets )
+			{*/
 				// Helpful var to determine ships center for bullet spawning
 				const SizeF ship_half_size = ship_size * .5f;
 		
 				// Set bullet to ship center
 				const Vector ship_center = ship.position + ship_half_size;
 
-				// Add projectile to list in amalgum				
-				amalgum.projectile_list.emplace_back( Projectile( ship_center, ( ( Amalgum::screen_size * .5f ) - ship_center ).Normalize(), 3, 5, 300.f ) );
-			}
+				Vector dir(0.f, 0.f);
+				if( ship.position.x == 0.f )
+				{
+					dir.x = 1.f;
+				}					
+				else if( ship.position.x == Amalgum::screen_size.width - ship_size.width -1.f )
+				{
+					dir.x = -1.f;
+				}					
+				else if( ship.position.y == 0.f )
+				{
+					dir.y = 1.f;
+				}
+				else
+				{
+					dir.y = -1.f;
+				}
+					
+				// Add projectile to list in amalgum
+				amalgum.projectile_list.emplace_back( Projectile( ship_center, dir, 3, 5, 300.f ) );
+			//}
 		}
 	}
 

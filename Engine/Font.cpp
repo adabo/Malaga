@@ -2,9 +2,9 @@
 #include "Graphics.h"
 #include <assert.h>
 
-Font::Font( const std::wstring &Filename, int CharWidth, int CharHeight, int CharsPerRow, const Wic &rWic )
+Font::Font( const std::wstring &Filename, int CharWidth, int CharHeight, int CharsPerRow )
 	:
-	bmp( Filename, rWic ),
+	bmp( Filename ),
 	char_width( CharWidth ),
 	char_height( CharHeight ),
 	n_chars_per_row( CharsPerRow )
@@ -37,11 +37,14 @@ void Font::DrawChar( char c, int x_offset, int y_offset, Color color, Graphics &
 	const int x_start_pos = x_offset - x_start;
 	const int y_start_pos = y_offset - y_start;
 	
+	const Color key( 255, 0, 0, 0 );
     for( int y = y_start; y < y_end; y++ )
     {
         for( int x = x_start; x < x_end; x++ )
         {
-			if( bmp.GetPixel( x, y ) == Colors::Black )
+			const Color mask = bmp.GetPixel( x, y );
+
+			if( mask == key )
             {
 				Gfx.PutPixel( x + x_start_pos, y + y_start_pos, color );
             }

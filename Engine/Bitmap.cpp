@@ -1,9 +1,9 @@
 #include "Bitmap.h"
 #include "Colors.h"
 
-Bitmap::Bitmap( const std::wstring & Filename, const Wic &crWic )
+Bitmap::Bitmap( const std::wstring & Filename )
 	:
-	Image( Filename, crWic )
+	Image( Filename )
 {}
 
 Color Bitmap::GetPixel( int X, int Y ) const

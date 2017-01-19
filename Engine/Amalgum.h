@@ -12,6 +12,7 @@
 #include "Ship.h"
 #include "Spawner.h"
 #include "StarField.h"
+#include "Text.h"
 #include "Timer.h"
 #include "UpgradeController.h"
 #include "Utilities.h"
@@ -43,6 +44,8 @@ struct Amalgum
 	Weapon weapon;
 	Spawner spawner;
 	UpgradeController upgrader;
+
+	Text text_score, text_shield, text_level;
 
 	static constexpr unsigned max_bullets = 10u;
 	static constexpr float base_spawn_rate = 2.f;

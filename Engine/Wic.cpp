@@ -2,7 +2,7 @@
 
 Wic::Wic()
 {
-	HRESULT hr = S_OK;
+	HRESULT hr = CoInitialize( nullptr );
 	hr = CoCreateInstance(
 		CLSID_WICImagingFactory2,
 		nullptr,
@@ -13,7 +13,8 @@ Wic::Wic()
 }
 
 Wic::~Wic()
-{}
+{
+}
 
 IWICImagingFactory2 * Wic::GetFactory() const
 {

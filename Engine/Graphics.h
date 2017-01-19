@@ -23,6 +23,9 @@
 #include <wrl.h>
 #include "ChiliException.h"
 #include "Colors.h"
+#ifdef DrawText
+#undef DrawText
+#endif
 
 class Graphics
 {
@@ -61,6 +64,7 @@ public:
 	void DrawCircle( int Cx, int Cy, int Radius, Color C );
 	void DrawLine( int X0, int Y0, int X1, int Y1, Color C );
 	void DrawDisc( int Cx, int Cy, int Radius, Color C );
+	void DrawText( int X, int Y, const class Text &String, const class TextFormat &Format );
 	~Graphics();
 private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain>				pSwapChain;

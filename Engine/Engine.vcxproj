@@ -184,7 +184,6 @@
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="Reaper.cpp" />
     <ClCompile Include="UpgradeController.cpp" />
     <ClCompile Include="View.cpp" />
     <ClCompile Include="DXErr.cpp" />
