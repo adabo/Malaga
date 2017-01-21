@@ -25,9 +25,11 @@ Todo
 // Ammo upgrades
 Weaopn upgrades
 ----------
-1. Projectile properties
-	a. speed
-	b. damage
+{ // Redacted
+	1. Projectile properties
+		a. speed
+		b. damage
+}
 
 2. Weapon properties / tiers
 	a. single shot |
@@ -76,11 +78,13 @@ Game Screen
     To be decided
     ----------
     [can all be same points, just spawn timer different per color]
-    a. red bricks   -> shield
-    b. blue bricks  -> ammo
-    c. green bricks -> acceleration
-    d. pink bricks  -> ship speed
-    c. brown bricks -> bomb (destroy all enemies on screen) 
+    Priority    
+	-----------------------------------------------------------------
+		1	|	brown bricks -> bomb (destroy all enemies on screen)				
+		2	|	pink bricks  -> ship speed
+		3	|	blue bricks  -> weapon
+		4	|	red bricks   -> shield
+		5	|	green bricks -> acceleration
 
 3. health & shield bar
 
@@ -135,3 +139,20 @@ Game flow from a programming standpoint
 3e)	brown bricks -> bomb (destroy all enemies on screen) 
 
 4)	Enemy spawn mechanics
+
+
+Possible future additions
+-------------------------
+Limit perk drops (keep colored enemy count on screen low)
+5th Weapon upgrade chases perk enemies
+HUD
+Possible weapon upgrade: faster fire rate
+Add sounds 
+Add sprites
+Add network play
+
+
+
+
+
+

@@ -14,7 +14,10 @@ void EnemyTrackMotion::Update( float Dt )
 
 void EnemyTrackMotion::Draw( Graphics & Gfx )
 {
-	Gfx.DrawRect( position.x, position.y, width, height, color );
+	Gfx.DrawRect( 
+		static_cast<int>( position.x ),
+		static_cast<int>( position.y ),
+		width, height, color );
 }
 
 void EnemyTrackMotion::SetPlayerPosition( const Vector & PlayerPos )

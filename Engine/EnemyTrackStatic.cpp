@@ -17,5 +17,8 @@ void EnemyTrackStatic::Update( float Dt)
 
 void EnemyTrackStatic::Draw( Graphics &Gfx )
 {
-	Gfx.DrawRect( position.x, position.y, width, height, color );
+	Gfx.DrawRect( 
+		static_cast<int>( position.x ),
+		static_cast<int>( position.y ),
+		width, height, color );
 }

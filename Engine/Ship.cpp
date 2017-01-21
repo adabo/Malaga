@@ -14,12 +14,15 @@ void Ship::Update( float Dt )
 
 void Ship::ClampToScreenEdges()
 {
-	position.x = min( Amalgum::screen_size.width - ( width + 1 ), max( position.x, 0.f ) );
-	position.y = min( Amalgum::screen_size.height - ( height + 1 ), max( position.y, 0.f ) );
+	position.x = std::min( Amalgum::screen_size.width - ( width + 1 ),   std::max( position.x, 0.f ) );
+	position.y = std::min( Amalgum::screen_size.height - ( height + 1 ), std::max( position.y, 0.f ) );
 }
 
 void Ship::Draw( Graphics &Gfx )
 {
-	Gfx.DrawRect( position.x, position.y, width, height, Colors::Gray );
+	Gfx.DrawRect( 
+		static_cast<int>( position.x ),
+		static_cast<int>( position.y ),
+		width, height, Colors::Gray );
 }
 

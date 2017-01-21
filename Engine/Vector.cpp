@@ -27,7 +27,7 @@ Vector Vector::operator*( const float Rhs )const
 
 float Vector::GetMagnitude( ) const
 {
-	return sqrt( x * x + y * y );
+	return sqrtf( x * x + y * y );
 }
 
 Vector Vector::Normalize( ) const

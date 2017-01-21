@@ -1,3 +1,7 @@
+#ifndef FULL_WINTARD
+#define FULL_WINTARD
+#endif // !FULL_WINTAR
+
 #include "Text.h"
 #include "Graphics.h"
 #include <iomanip>

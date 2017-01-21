@@ -2,7 +2,7 @@
 
 
 class Graphics;
-class Amalgum;
+struct  Amalgum;
 
 class View
 {

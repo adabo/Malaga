@@ -12,7 +12,7 @@ public:
 
 private:
 	const unsigned int tier_goal = 10u;
-	int kill_count = 0;
+	unsigned int kill_count = 0u;
 	int difficulty_tier = 0;
 };
 

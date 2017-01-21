@@ -1,3 +1,7 @@
+#ifndef FULL_WINTARD
+#define FULL_WINTARD
+#endif // !FULL_WINTARD
+
 #include "EnemyStraight.h"
 #include "Graphics.h"
 
@@ -12,9 +16,13 @@ EnemyStraight::EnemyStraight( const Vector & Pos, const Vector & Heading,
 void EnemyStraight::Update( float Dt )
 {
 	position = position + ( velocity * Dt );
+	
 }
 
 void EnemyStraight::Draw( Graphics & Gfx )
 {
-	Gfx.DrawRect( position.x, position.y, width, height, color );
+	Gfx.DrawRect( 
+		static_cast<int>( position.x ),
+		static_cast<int>( position.y ), 
+		width, height, color );
 }
