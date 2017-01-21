@@ -150,6 +150,9 @@ Possible weapon upgrade: faster fire rate
 Add sounds 
 Add sprites
 Add network play
+Enemies only take damage from bottom side (heading towards ship)
+	-Ability upgrade to snap to a side (top,bot,left,right) middle
+	-Move normally after snap
 
 
 
